@@ -6,7 +6,8 @@ import Users from './users'
 import Adduser from './addUser'
 import { BrowserRouter,Route ,Redirect} from 'react-router-dom'
 import './styles.css'
-
+import store from "../store";
+import { ConnectedRouter, push} from 'react-router-redux'
 class Main extends React.Component {
     constructor(props) {
         super(props);
@@ -18,7 +19,7 @@ class Main extends React.Component {
         let {isLoginPending, isLoginSuccess, loginError,match} = this.props;
         return (
             <div>
-                { !isLoginSuccess && <Redirect to={{pathname: '/'}}/>}
+                { !isLoginSuccess && store.dispatch(push('/dashboard'))}
                    <div ><Route  component={Menu} /></div>
 
                 <div  id="toggleMenu">

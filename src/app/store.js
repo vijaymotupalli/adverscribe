@@ -4,17 +4,24 @@ import thunk from 'redux-thunk';
 import Login from "./reducers/loginReducer";
 import User from "./reducers/userReducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
-
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import createHistory from 'history/createBrowserHistory'
+import { Route } from 'react-router'
+import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
+const history = createHistory()
+const middleware = routerMiddleware(history)
 const composeEnhancers = composeWithDevTools({
-    // Specify here name, actionsBlacklist, actionsCreators and other options
+
 });
 
 export default createStore(
     combineReducers({
-        Login,User
+        Login,User,router: routerReducer
     }),
     {},
     composeEnhancers(
-        applyMiddleware(logger(),thunk))
+        applyMiddleware(middleware,logger(),thunk))
 
 );

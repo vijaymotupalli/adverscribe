@@ -22,14 +22,13 @@ class Login extends React.Component {
         let {isLoginPending, isLoginSuccess, loginError} = this.props;
         return (
             <div>
-                { isLoginSuccess && <Redirect to={{pathname: '/dashboard/users'}}/>}
+                { isLoginSuccess && <Redirect to={{pathname: '/dashboard/users',state: { from: this.props.location }}}/>}
                 <div className="bgLogin">
                     <div className="logo">
                     </div>
                     <section className="login">
                         <h2>Login</h2>
                         <form >
-
                             <div className="text-center">
                                 <label className="errorcolor">
                                     { isLoginPending && <div>Please wait...</div>  }

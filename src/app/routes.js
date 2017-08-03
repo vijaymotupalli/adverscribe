@@ -4,12 +4,15 @@ import React from "react";
 import {Provider} from "react-redux";
 import App from "./app";
 import store from "./store";
+import { ConnectedRouter, push} from 'react-router-redux'
+import createHistory from 'history/createBrowserHistory'
+const history = createHistory()
 
 render(
     <Provider store={store}>
-        <BrowserRouter>
-           <App/>
-        </BrowserRouter>
+        <ConnectedRouter history={history}>
+            <App/>
+        </ConnectedRouter>
     </Provider>,
     window.document.getElementById('app'));
 
