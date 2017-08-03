@@ -1,5 +1,6 @@
 import  React from "react";
 import Login from './containers/login'
+import Main from './containers/main'
 import { BrowserRouter,Route ,Redirect} from 'react-router-dom'
 class App extends React.Component {
     constructor(props){
@@ -9,6 +10,7 @@ class App extends React.Component {
         return (
             <div >
                 <Route exact path="/" component={Login} />
+                <Route  path="/dashboard" component={Main} />
             </div>
         );
     }

@@ -9,20 +9,20 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
 
-        if(localStorage.getItem("accesstoken")){
+        if(localStorage.getItem("userToken")){
             this.props.setLoginSuccess(true);
         }
     }
     onResponseGoogle(response){
-        console.log(response);
+        console.log("google response",response);
         if(response.profileObj.email)this.props.googleLogin(response.profileObj.email);
 
     }
     render(){
         let {isLoginPending, isLoginSuccess, loginError} = this.props;
-        console.log("---iam in logiin---",)
         return (
             <div>
+                { isLoginSuccess && <Redirect to={{pathname: '/dashboard/users'}}/>}
                 <div className="bgLogin">
                     <div className="logo">
                     </div>
@@ -40,6 +40,7 @@ class Login extends React.Component {
                             <GoogleLogin
                                 clientId="838976054256-mmc4cgm3eaoa0jrat1ph928lekpjiqvg.apps.googleusercontent.com"
                                 buttonText="Google Login"
+                                autoLoad={false}
                                 style={{
                                     fontSsize: 14,
                                     width: "100%",
@@ -65,7 +66,6 @@ class Login extends React.Component {
 };
 
 const mapStateToProps = (state) => {
-    console.log("----state----",state)
     return {
         isLoginPending: state.Login.isLoginPending,
         isLoginSuccess: state.Login.isLoginSuccess,

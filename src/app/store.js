@@ -2,6 +2,7 @@ import {createStore, combineReducers, applyMiddleware} from "redux";
 import logger from "redux-logger";
 import thunk from 'redux-thunk';
 import Login from "./reducers/loginReducer";
+import User from "./reducers/userReducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const composeEnhancers = composeWithDevTools({
@@ -10,7 +11,7 @@ const composeEnhancers = composeWithDevTools({
 
 export default createStore(
     combineReducers({
-        Login
+        Login,User
     }),
     {},
     composeEnhancers(
