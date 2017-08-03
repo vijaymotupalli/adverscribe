@@ -13,7 +13,23 @@
 .errorcolor{
     color:red;
 }
+#userslist{
+    padding: 16px;
+    font-size: 18px;
+    line-height: 0.6;
+    font-weight: bold;
+}
+#title{
+    margin: 10px;
+}
+#adduser{
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 0.5;
+    border-radius: 6px;
+    float: right;
 
+}
 .vertical-menu a:hover {
     background-color: #e21915; /* Dark grey background on mouse-over */
 }

@@ -34,8 +34,6 @@ class Menu extends React.Component {
                     <a className="closebtn" onClick={this.closeNav}>&times;</a>
                     <img src="../../assets/images/logo.png" className="logo2"/>
                     <div className="mainLinks">
-                        <NavLink to={match.url+'/adduser'}  activeClassName="active"  exact><img
-                            src="../../assets/images/multiple-users-silhouette.png"/> Add User </NavLink>
                         <NavLink to={match.url+'/users'}  activeClassName="active"  exact><img
                             src="../../assets/images/multiple-users-silhouette.png"/> Users </NavLink>
                         <NavLink to={match.url+'/signout'}  activeClassName="active" onClick={this.onSubmit} exact><img

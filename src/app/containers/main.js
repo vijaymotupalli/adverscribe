@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import Menu from './menu'
 import Users from './users'
 import Adduser from './addUser'
+import newAdd from './newaddUser'
 import { BrowserRouter,Route ,Redirect} from 'react-router-dom'
 import './styles.css'
 
@@ -22,7 +23,7 @@ class Main extends React.Component {
                    <div ><Route  component={Menu} /></div>
 
                 <div  id="toggleMenu">
-                    <Route exact  path={match.url+'/adduser'} component={Adduser} />
+                    <Route exact  path={match.url+'/adduser'} component={newAdd} />
                     <Route exact  path={match.url+'/users'} component={Users} />
                 </div>
             </div>
