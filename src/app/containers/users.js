@@ -10,14 +10,11 @@ class User extends React.Component {
         super(props);
     }
 
-    componentWillMount() {
-        console.log("----component about to mount----")
+    componentDidMount() {
+        console.log("----component  mounted----")
         this.props.getUsers();
     }
 
-    componentDidMount() {
-        console.log("-----component mounted------")
-    }
 
     render() {
         console.log("'------array of all users----", this.props)
@@ -36,7 +33,7 @@ class User extends React.Component {
         return (
             <div>
                 <div>
-                    <div className="container">
+                    <div className="container" >
                         <div className="modal fade" id="myModal" role="dialog">
                             <div className="modal-dialog modal-lg">
                                 <div className="modal-content">
@@ -58,7 +55,7 @@ class User extends React.Component {
                     <div className="row" id="title">
                         <div className="col-sm-8" id="userslist">Users List</div>
                         <div className="col-sm-4"><button type="button" id="adduser" className="btn btn-info btn-lg" data-toggle="modal"
-                                                          data-target="#myModal">Add User
+                                                          data-target="#myModal" >Add User
                         </button></div>
                     </div>
                     <div className="gridTable">

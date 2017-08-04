@@ -30,14 +30,25 @@ export function googleLogin(email) {
         dispatch(setLoginPending(true));
         dispatch(setLoginSuccess(false));
         dispatch(setLoginError(null));
-
-        if(email == "motupallivijay@gmail.com") {
-            dispatch(setLoginPending(false));
-            localStorage.setItem("userToken",email);
+        axios.post('/login', {
+            email: email,
+        })
+            .then(function (response,err) {
+                console.log("----logged in user----",response.data)
+                dispatch(setLoginPending(false));
                 dispatch(setLoginSuccess(true));
-        }else {
-            dispatch(setLoginError(error));
-        }
+                localStorage.setItem("userToken",email);
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    console.log(error.response.data);
+                    dispatch(setLoginError(error.response.data.msg))
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error Message', error.message);
+                }
+            });
     }
 }
 export function getUsers() {
@@ -70,8 +81,7 @@ export function addUser(user) {
             name: user.name
         })
             .then(function (response,err) {
-                console.log("API DATA",response,err);
-                dispatch(setUsersData(response.data))
+                dispatch(getUsers());
             })
             .catch(function (error) {
                 if (error.response) {

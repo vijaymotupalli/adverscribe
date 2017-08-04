@@ -15,10 +15,6 @@ class Adduser extends React.Component {
             error: ""
         };
 
-        if (localStorage.getItem("accesstoken")) {
-            this.props.setLoginSuccess(true);
-        }
-
         this.onSubmit = this.onSubmit.bind(this)
     }
 
@@ -43,7 +39,6 @@ class Adduser extends React.Component {
             });
         }
 
-
     }
 
     render() {
@@ -61,12 +56,12 @@ class Adduser extends React.Component {
 
                                 </div>
                                 <div className="form-group pr">
-                                    <input type="text" className="form-control" placeholder="Email" name="email"
+                                    <input type="email" className="form-control" placeholder="Email" name="email"
                                            onChange={e => this.setState({email: e.target.value})}
                                            value={this.state.email} required/>
                                 </div>
                                 <div className="form-group pr">
-                                    <input type="text" className="form-control" placeholder="Email(confirm)"
+                                    <input type="email" className="form-control" placeholder="Email(confirm)"
                                            name="confirmemail"
                                            onChange={e => this.setState({confirmEmail: e.target.value})}
                                            value={this.state.confirmEmail} required/>
