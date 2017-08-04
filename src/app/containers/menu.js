@@ -36,6 +36,8 @@ class Menu extends React.Component {
                     <div className="mainLinks">
                         <NavLink to={match.url+'/users'}  activeClassName="active"  exact><img
                             src="../../assets/images/multiple-users-silhouette.png"/> Users </NavLink>
+                        <NavLink to={match.url+'/tasks'}  activeClassName="active"  exact><img
+                            src="../../assets/images/multiple-users-silhouette.png"/> Tasks </NavLink>
                         <NavLink to={match.url+'/signout'}  activeClassName="active" onClick={this.onSubmit} exact><img
                             src="../../assets/images/power.png"/> Signout </NavLink>
                     </div>

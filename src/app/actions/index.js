@@ -59,6 +59,7 @@ export function getUsers() {
             });
     }
 }
+
 export function setUsersData(usersData) {
 
     return {
@@ -66,6 +67,7 @@ export function setUsersData(usersData) {
         payload:usersData
     }
 }
+
 export function setUserError(userError) {
 
     return {
@@ -73,30 +75,83 @@ export function setUserError(userError) {
         payload:userError
     }
 }
+export function setTaskError(taskError) {
+
+    return {
+        type: "SET_TASK_ERROR",
+        payload:taskError
+    }
+}
+export function setTask(task) {
+
+    return {
+        type: "SET_TASK",
+        payload:task
+    }
+}
+export function clearUserError(userError) {
+
+    return {
+        type: "CLEAR_USER_ERROR",
+        payload:userError
+    }
+}
+export function clearUserData(flag) {
+
+    return {
+        type: "CLEAR_USER_DATA",
+        payload:flag
+    }
+}
 export function addUser(user) {
     return  dispatch => {
-        axios.post('/users', {
-            email: user.email,
-            role: user.role,
-            name: user.name
-        })
-            .then(function (response,err) {
-                dispatch(getUsers());
+        return new Promise (function (resolve,reject) {
+            axios.post('/users', {
+                email: user.email,
+                role: user.role,
+                name: user.name
             })
-            .catch(function (error) {
-                if (error.response) {
-                    console.log(error.response.data);
-                    dispatch(setUserError(error.response.data.msg))
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    console.log(error.request);
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.log('Error', error.message);
-                }
-                console.log(error.config);
-            });
+                .then(function (response,err) {
+                    dispatch(getUsers());
+                    dispatch(clearUserData(true))
+                    dispatch(setUserError(""));
+                    resolve()
+                })
+                .catch(function (error) {
+                    if (error.response) {
+                        dispatch(setUserError(error.response.data.msg.message ? error.response.data.msg.message :error.response.data.msg))
+                    }
+                    reject()
+                });
+        })
+
+    }
+}
+export function addTask(task) {
+    return  dispatch => {
+        return new Promise (function (resolve,reject) {
+            console.log(task);
+
+            dispatch(setTask(task));
+
+            // axios.post('/users', {
+            //     email: user.email,
+            //     role: user.role,
+            //     name: user.name
+            // })
+            //     .then(function (response,err) {
+            //         dispatch(getUsers());
+            //         dispatch(clearUserData(true))
+            //         dispatch(setUserError(""));
+            //         resolve()
+            //     })
+            //     .catch(function (error) {
+            //         if (error.response) {
+            //             dispatch(setUserError(error.response.data.msg.message ? error.response.data.msg.message :error.response.data.msg))
+            //         }
+            //         reject()
+            //     });
+        })
+
     }
 }

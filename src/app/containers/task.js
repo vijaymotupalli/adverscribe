@@ -1,45 +1,40 @@
 import React from "react";
-import {addUser,setUserError} from "../actions/index";
+import {addTask,setTaskError} from "../actions/index";
 import {connect} from "react-redux";
 import {BrowserRouter, Route, Redirect} from 'react-router-dom'
 import './styles.css';
-import {RadioGroup,Radio} from 'react-mdl'
+import 'style-loader!react-datepicker/dist/react-datepicker.css';
+import 'style-loader!react-date-picker/index.css'
+import DatePicker from 'react-datepicker'
+var moment = require('moment');
 
-class Adduser extends React.Component {
+class Task extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "",
-            confirmEmail: "",
-            name: "",
-            role: "",
-            error: ""
+            title: "",
+            description: "",
+            startDate: "",
+            endDate: "",
+            assignedTo: "",
+            error:"",
+            tasks:[]
         };
 
         this.onSubmit = this.onSubmit.bind(this)
     }
-
+    handleChange(date){
+        console.log(date)
+    }
     onSubmit(e) {
         e.preventDefault();
         this.setState({error:""})
-        this.props.setUserError("");
-        const {email, confirmEmail, name, role} = this.state;
-        if (email == confirmEmail) {
-           this.props.addUser({email: email, name: name, role: role}).then((result,err)=> {
-               if(!err){
-                   this.setState({
-                       email:"",name:"",role:"",confirmEmail:"",error:""
-                   })
-               }
-            })
-        } else {
-            this.setState({
-                error: "Email Not Matched"
-            });
-        }
+        this.props.setTaskError("");
+        const {title, description, startDate, endDate,assignedTo} = this.state;
+        this.props.addTask({title:title,description:description,startDate:startDate,endDate:endDate,assignedTo:assignedTo})
+         console.log("Task Data",{title:title,description:description,startDate:startDate,endDate:endDate,assignedTo:assignedTo})
     }
     render() {
-        console.log("----satet----",this.state)
         return (
             <div>
                 <div className="container" >
@@ -48,63 +43,80 @@ class Adduser extends React.Component {
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                    <h4 className="modal-title">Add User</h4>
+                                    <h4 className="modal-title">Assign Task</h4>
                                 </div>
                                 <div className="modal-body">
                                     <form>
                                         <div className="form-group modalFields">
                                             <div className="row mt30">
                                                 <div className="col-md-3">
-                                                    <label className="colorGray">Name</label>
+                                                    <label className="colorGray">Title</label>
                                                 </div>
                                                 <div className="col-md-9">
                                                     <input type="text"  className="form-control" placeholder="Type Name" name="name"
-                                                           onChange={e => this.setState({name: e.target.value})} value={this.state.name} />
+                                                           onChange={e => this.setState({title: e.target.value})} value={this.state.title} />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="form-group modalFields">
                                             <div className="row mt30">
                                                 <div className="col-md-3">
-                                                    <label className="colorGray">Email</label>
+                                                    <label className="colorGray">Description</label>
                                                 </div>
                                                 <div className="col-md-9">
-                                                    <input type="email"  className="form-control" placeholder="Type Email ID" name="email"
-                                                           onChange={e => this.setState({email: e.target.value})}
-                                                           value={this.state.email} required/>
+                                                    <textarea className="form-control" rows="5" id="comment"
+                                                           onChange={e => this.setState({description: e.target.value})} value={this.state.description} />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="form-group modalFields">
                                             <div className="row mt30">
                                                 <div className="col-md-3">
-                                                    <label className="colorGray">Email(confirm)</label>
+                                                    <label className="colorGray">Start Date</label>
                                                 </div>
                                                 <div className="col-md-9">
-                                                    <input type="email"  className="form-control" placeholder="Type Email ID" name="email"
-                                                           onChange={e => this.setState({confirmEmail: e.target.value})}
-                                                           value={this.state.confirmEmail} required/>
+                                                    <DatePicker
+                                                        onChange={e => this.setState({startDate: e})} value={this.state.startDate}
+                                                        dateFormat="DD/MM/YYYY"
+                                                        selected={this.state.startDate}
+                                                        className="form-control"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="form-group modalFields">
+                                            <div className="row mt30">
+                                                <div className="col-md-3">
+                                                    <label className="colorGray">End Date</label>
+                                                </div>
+                                                <div className="col-md-9">
+                                                    <DatePicker
+                                                        onChange={e => this.setState({endDate: e})} value={this.state.endDate}
+                                                        selected={this.state.endDate}
+                                                        dateFormat="DD/MM/YYYY"
+                                                        className="form-control"
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="form-group modalFields">
                                             <div className="row mt30">
                                                 <div className="col-md-3">
-                                                    <label className="colorGray">Select Role</label>
+                                                    <label className="colorGray">Assigned To</label>
                                                 </div>
                                                 <div className="col-md-9">
-                                                    <select className="form-control" id="sel1" onChange={e => this.setState({role: e.target.value})} value={this.state.role}>                                              <option value="" selected="selected" disabled>--Select Role--</option>
-                                                            <option>Super Admin</option>
-                                                            <option >Admin</option>
-                                                        </select>
+                                                    <input type="text"  className="form-control" placeholder="Type Name" name="name"
+                                                           onChange={e => this.setState({assignedTo: e.target.value})} value={this.state.assignedTo} />
                                                 </div>
                                             </div>
                                         </div>
+
                                     </form>
                                     <div className="text-center">
                                         <label className="errorcolor">
                                             { this.state.error && <div>{this.state.error}</div>  }
-                                            { this.props.userError && <div>{ this.props.userError}</div>}
+                                            { this.props.taskError && <div>{ this.props.taskError}</div>}
                                         </label>
                                     </div>
                                 </div>
@@ -115,7 +127,7 @@ class Adduser extends React.Component {
                                                     style={{width:"100%",background:"#fff",color:"#333"}}>CANCEL</button>
                                         </div>
                                         <div className="col-md-6">
-                                            <button type="button" className="btn blackButton" onClick={this.onSubmit} style={{width:"100%"}}>CREATE</button>
+                                            <button type="button" className="btn blackButton" onClick={this.onSubmit} style={{width:"100%"}}>ASSIGN</button>
                                         </div>
                                     </div>
                                 </div>
@@ -132,18 +144,18 @@ class Adduser extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        userError: state.User.error,
-        userDataClear:state.User.userDataClear
+        taskError: state.Tasks.error,
+        taskDataClear:state.Tasks.taskDataClear
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addUser: (user) => dispatch(addUser(user)),
-        setUserError: (error) => dispatch(setUserError(error)),
+        addTask: (task) => dispatch(addTask(task)),
+        setTaskError: (error) => dispatch(setTaskError(error)),
 
     };
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Adduser);
+export default connect(mapStateToProps, mapDispatchToProps)(Task);

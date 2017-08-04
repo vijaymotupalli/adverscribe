@@ -15,9 +15,13 @@
   "dependencies": {
     "axios": "^0.16.2",
     "css-loader": "^0.28.4",
+    "moment": "^2.18.1",
     "react": "^15.2.1",
+    "react-datepicker": "^0.52.0",
     "react-dom": "^15.6.1",
     "react-google-login": "^2.9.3",
+    "react-mdl": "^1.10.3",
+    "react-modal": "^2.2.2",
     "react-redux": "^4.4.5",
     "react-router": "^4.1.2",
     "react-router-dom": "^4.1.2",

@@ -293,6 +293,11 @@ div.dataTables_wrapper div.dataTables_info {
     padding: 15px;
     margin: 15px 0 0 0;
 }
+.gridTasks{
+    background: #fff;
+    padding: 15px;
+    margin: 15px 0 0 0;
+}
 table.dataTable {
     box-shadow: 0 7px 11px 0 rgba(0, 0, 0, 0.16);
 }
@@ -394,6 +399,11 @@ div.dataTables_wrapper div.dataTables_paginate {
     width: 35px;
     border-radius: 50%;
     margin: 0 0 0 15px;
+}
+.btn-info {
+    color: #fff;
+    background-color: #0e0e0e;
+    border-color: #eeeeee;
 }
 .gridTable input[type="checkbox"]{
     margin: 5px 0 0 15px;
@@ -553,7 +563,22 @@ div.dataTables_wrapper div.dataTables_paginate {
 .productList figcaption{
     margin: 5px 0 0 0;
 }
+.taskCard {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 10%;
+    float: left;
+    padding:5px;
+    margin:5px;
+}
 
+.taskCard:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.taskContainer {
+    padding: 2px 16px;
+}
 
 .ngx-pagination {
     text-align: right;

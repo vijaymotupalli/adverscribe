@@ -5,6 +5,7 @@ import Menu from './menu'
 import Users from './users'
 import Adduser from './addUser'
 import newAdd from './newaddUser'
+import AssignTask from './assignTask'
 import { BrowserRouter,Route ,Redirect} from 'react-router-dom'
 import './styles.css'
 
@@ -25,6 +26,7 @@ class Main extends React.Component {
                 <div  id="toggleMenu">
                     <Route exact  path={match.url+'/adduser'} component={newAdd} />
                     <Route exact  path={match.url+'/users'} component={Users} />
+                    <Route exact  path={match.url+'/tasks'} component={AssignTask} />
                 </div>
             </div>
         );
