@@ -1,9 +1,12 @@
 const userReducer = (state = {
-    tasks: [],error:"",taskDataClear:false
+    tasks: "",error:"",taskDataClear:false
 }, action) => {
     switch (action.type) {
-        case "SET_TASK":
-           state.tasks.push(action.payload);
+        case "SET_TASKS_DATA":
+            state = {
+                ...state,
+                tasks: action.payload
+            };
             break;
         case "SET_TASK_ERROR":
             state = {

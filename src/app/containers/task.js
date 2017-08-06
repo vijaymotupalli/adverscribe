@@ -16,25 +16,46 @@ class Task extends React.Component {
             description: "",
             startDate: "",
             endDate: "",
-            assignedTo: "",
-            error:"",
-            tasks:[]
+            assignTo: "",
+            error:""
         };
 
         this.onSubmit = this.onSubmit.bind(this)
     }
-    handleChange(date){
-        console.log(date)
-    }
     onSubmit(e) {
         e.preventDefault();
-        this.setState({error:""})
+        this.setState({error: ""})
         this.props.setTaskError("");
-        const {title, description, startDate, endDate,assignedTo} = this.state;
-        this.props.addTask({title:title,description:description,startDate:startDate,endDate:endDate,assignedTo:assignedTo})
-         console.log("Task Data",{title:title,description:description,startDate:startDate,endDate:endDate,assignedTo:assignedTo})
+        const {title, description, startDate, endDate, assignTo} = this.state;
+        this.props.addTask({
+            title: title,
+            description: description,
+            startDate: startDate,
+            endDate: endDate,
+            assignTo: assignTo
+        }).then((result,err)=>{
+            if(!err){
+                this.setState({
+                    title: "",
+                    description: "",
+                    startDate: "",
+                    endDate: "",
+                    assignTo: "",
+                    error:""
+                });
+            }
+        })
     }
+
     render() {
+        console.log("----local task state---",this.state)
+        var users = this.props.users ? this.props.users : []
+        var options = users.map(function (user) {
+            return (
+               <option key={user._id} value={user._id}>{user.name}</option>
+            );
+        }, this);
+
         return (
             <div>
                 <div className="container" >
@@ -53,7 +74,7 @@ class Task extends React.Component {
                                                     <label className="colorGray">Title</label>
                                                 </div>
                                                 <div className="col-md-9">
-                                                    <input type="text"  className="form-control" placeholder="Type Name" name="name"
+                                                    <input type="text"  className="form-control" placeholder="Enter Title" name="name"
                                                            onChange={e => this.setState({title: e.target.value})} value={this.state.title} />
                                                 </div>
                                             </div>
@@ -64,7 +85,7 @@ class Task extends React.Component {
                                                     <label className="colorGray">Description</label>
                                                 </div>
                                                 <div className="col-md-9">
-                                                    <textarea className="form-control" rows="5" id="comment"
+                                                    <textarea placeholder="Enter Description" className="form-control" rows="5" id="comment"
                                                            onChange={e => this.setState({description: e.target.value})} value={this.state.description} />
                                                 </div>
                                             </div>
@@ -75,7 +96,7 @@ class Task extends React.Component {
                                                     <label className="colorGray">Start Date</label>
                                                 </div>
                                                 <div className="col-md-9">
-                                                    <DatePicker
+                                                    <DatePicker placeholder="Select Date"
                                                         onChange={e => this.setState({startDate: e})} value={this.state.startDate}
                                                         dateFormat="DD/MM/YYYY"
                                                         selected={this.state.startDate}
@@ -91,7 +112,7 @@ class Task extends React.Component {
                                                     <label className="colorGray">End Date</label>
                                                 </div>
                                                 <div className="col-md-9">
-                                                    <DatePicker
+                                                    <DatePicker placeholder="Select Date"
                                                         onChange={e => this.setState({endDate: e})} value={this.state.endDate}
                                                         selected={this.state.endDate}
                                                         dateFormat="DD/MM/YYYY"
@@ -106,8 +127,10 @@ class Task extends React.Component {
                                                     <label className="colorGray">Assigned To</label>
                                                 </div>
                                                 <div className="col-md-9">
-                                                    <input type="text"  className="form-control" placeholder="Type Name" name="name"
-                                                           onChange={e => this.setState({assignedTo: e.target.value})} value={this.state.assignedTo} />
+                                                    <select className="form-control" placeholder="Select User"  onChange={e => this.setState({assignTo: e.target.value})} value={this.state.assignTo} >
+                                                        <option value="" defaultValue="--Select User--" disabled>--Select User--</option>
+                                                        {options}
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -143,9 +166,11 @@ class Task extends React.Component {
 ;
 
 const mapStateToProps = (state) => {
+    console.log("-----state in user---",state.User)
     return {
         taskError: state.Tasks.error,
-        taskDataClear:state.Tasks.taskDataClear
+        taskDataClear:state.Tasks.taskDataClear,
+        users: state.User.users
     };
 }
 

@@ -59,6 +59,14 @@ export function getUsers() {
             });
     }
 }
+export function getTasks() {
+    return  dispatch => {
+        axios.get('/tasks')
+            .then(function(response) {
+                dispatch(setTask(response.data))
+            });
+    }
+}
 
 export function setUsersData(usersData) {
 
@@ -85,7 +93,7 @@ export function setTaskError(taskError) {
 export function setTask(task) {
 
     return {
-        type: "SET_TASK",
+        type: "SET_TASKS_DATA",
         payload:task
     }
 }
@@ -131,26 +139,25 @@ export function addTask(task) {
     return  dispatch => {
         return new Promise (function (resolve,reject) {
             console.log(task);
-
-            dispatch(setTask(task));
-
-            // axios.post('/users', {
-            //     email: user.email,
-            //     role: user.role,
-            //     name: user.name
-            // })
-            //     .then(function (response,err) {
-            //         dispatch(getUsers());
-            //         dispatch(clearUserData(true))
-            //         dispatch(setUserError(""));
-            //         resolve()
-            //     })
-            //     .catch(function (error) {
-            //         if (error.response) {
-            //             dispatch(setUserError(error.response.data.msg.message ? error.response.data.msg.message :error.response.data.msg))
-            //         }
-            //         reject()
-            //     });
+            axios.post('/tasks', {
+                title:task.title,
+                description:task.description,
+                startDate:task.startDate,
+                endDate:task.endDate,
+                assignTo:task.assignTo
+            })
+                .then(function (response,err) {
+                    dispatch(getTasks());
+                    dispatch(clearTaskData(true))
+                    dispatch(setTaskError(""));
+                    resolve()
+                })
+                .catch(function (error) {
+                    if (error.response) {
+                        dispatch(setTaskError(error.response.data.msg.message ? error.response.data.msg.message :error.response.data.msg))
+                    }
+                    reject()
+                });
         })
 
     }

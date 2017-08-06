@@ -1,35 +1,36 @@
 import React from "react";
 import {connect} from "react-redux";
 import './styles.css';
-import {getUsers} from "../actions/index";
+import {getTasks} from "../actions/index";
 import Task from './task'
+var moment = require('moment');
 
 class AssignTask extends React.Component {
     constructor(props) {
         super(props);
     }
+    componentDidMount() {
+        this.props.getTasks();
+    }
 
     render() {
-        console.log("------this props----",this.props.tasks)
-      // var temp = this.props.tasks ? this.props.tasks : []
-        var temp =  [1,2,3,4,5]
-        var likstTasks = temp.map(function (task) {
-            console.log("-----task----",task.title)
+        console.log("----props in tasks---",this.props);
+        var temp = this.props.tasks ? this.props.tasks : []
+        var listTasks = temp.map(function (task) {
             return (
-
-                    <div className="taskCard">
-                        <div className="taskContainer">
-                            <h4><b>{task}</b></h4>
-                            <p>{task}</p>
-                        </div>
+                <div key={task._id} className="taskCard">
+                    <div className="taskContainer">
+                        <h4><b>{task.title}</b></h4>
+                        <p>{moment(task.startDate).format('L')}</p>
+                        <p>{task.assignTo}</p>
                     </div>
-
-            );
+                </div>
+            )
         }, this);
         return (
             <div>
                 <div>
-                    <Task/>
+                    <Task />
                     <div className="row" id="title">
                         <div className="col-sm-8" id="userslist">All Tasks</div>
                         <div className="col-sm-4"><button type="button" id="adduser" className="btn btn-info btn-lg" data-toggle="modal"
@@ -37,7 +38,7 @@ class AssignTask extends React.Component {
                         </button></div>
                     </div>
                     <div className="gridTasks">
-                   {likstTasks}
+                   {listTasks}
                     </div>
                 </div>
             </div>
@@ -54,7 +55,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getUsers: () => dispatch(getUsers())
+        getTasks: () => dispatch(getTasks())
     };
 }
 

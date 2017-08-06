@@ -13,13 +13,12 @@ class User extends React.Component {
     componentDidMount() {
         this.props.getUsers();
     }
-
-
     render() {
+        console.log("----props in user page---",this.props);
         var temp = this.props.users ? this.props.users : []
         var listUsers = temp.map(function (user) {
             return (
-                <tr key={user.createdAt}>
+                <tr key={user.createdAt} >
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
@@ -60,7 +59,6 @@ class User extends React.Component {
         );
     }
 }
-
 
 const mapStateToProps = (state) => {
     return {
