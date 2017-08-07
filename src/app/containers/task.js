@@ -34,6 +34,7 @@ class Task extends React.Component {
             endDate: endDate,
             assignTo: assignTo
         }).then((result,err)=>{
+            console.log("----in promise------",err,result)
             if(!err){
                 this.setState({
                     title: "",

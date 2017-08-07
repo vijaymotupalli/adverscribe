@@ -34,10 +34,10 @@ export function googleLogin(email) {
             email: email,
         })
             .then(function (response,err) {
+                localStorage.setItem("userToken",email);
                 console.log("----logged in user----",response.data)
                 dispatch(setLoginPending(false));
                 dispatch(setLoginSuccess(true));
-                localStorage.setItem("userToken",email);
             })
             .catch(function (error) {
                 if (error.response) {
@@ -138,7 +138,6 @@ export function addUser(user) {
 export function addTask(task) {
     return  dispatch => {
         return new Promise (function (resolve,reject) {
-            console.log(task);
             axios.post('/tasks', {
                 title:task.title,
                 description:task.description,
@@ -147,8 +146,8 @@ export function addTask(task) {
                 assignTo:task.assignTo
             })
                 .then(function (response,err) {
+                    console.log("----api hitting----",response,err)
                     dispatch(getTasks());
-                    dispatch(clearTaskData(true))
                     dispatch(setTaskError(""));
                     resolve()
                 })
@@ -160,5 +159,29 @@ export function addTask(task) {
                 });
         })
 
+    }
+}
+export function selectedUserData(selectedUserData) {
+
+    return {
+        type: "SELECTED_USER_DATA",
+        payload:selectedUserData
+    }
+}
+export function setUserTasks(userTasks) {
+
+    return {
+        type: "SET_USER_TASKS",
+        payload:userTasks
+    }
+}
+export function getUserTasks(user) {
+
+    return  dispatch => {
+        var userTasks = "/tasks/"+user.email;
+        axios.get(userTasks)
+            .then(function(response) {
+                dispatch(setUserTasks(response.data))
+            });
     }
 }

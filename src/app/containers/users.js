@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import './styles.css';
-import {getUsers} from "../actions/index";
+import {getUsers,selectedUserData} from "../actions/index";
 import Newadd from './newaddUser'
 import {Route, Link, Switch} from 'react-router-dom';
 
@@ -13,12 +13,19 @@ class User extends React.Component {
     componentDidMount() {
         this.props.getUsers();
     }
+    selectedUser(user){
+        const {context,history} = this.props
+        console.log("test",user)
+        this.props.selectedUserData(user);
+        history.push('userdetails')
+        console.log(this.props)
+    }
     render() {
         console.log("----props in user page---",this.props);
         var temp = this.props.users ? this.props.users : []
         var listUsers = temp.map(function (user) {
             return (
-                <tr key={user.createdAt} >
+                <tr key={user.createdAt} onClick={()=>this.selectedUser(user)}>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
@@ -68,7 +75,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getUsers: () => dispatch(getUsers())
+        getUsers: () => dispatch(getUsers()),
+        selectedUserData: (data) => dispatch(selectedUserData(data)),
     };
 }
 

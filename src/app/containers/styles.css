@@ -435,8 +435,6 @@ div.dataTables_wrapper div.dataTables_paginate {
     background-color: #ffffff;
     box-shadow: 0 7px 11px 0 rgba(0, 0, 0, 0.16);
     margin-bottom: 30px;
-    width: 70%;
-    margin: auto;
 }
 .cardWidget .cardTop{
     padding: 20px;
@@ -571,8 +569,16 @@ div.dataTables_wrapper div.dataTables_paginate {
     padding:5px;
     margin:5px;
 }
+.taskCardList {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 30%;
+    float: left;
+    padding:5px;
+    margin:5px;
+}
 
-.taskCard:hover {
+.taskCard:hover{
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 

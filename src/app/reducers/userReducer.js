@@ -1,5 +1,5 @@
 const userReducer = (state = {
-    users: "",error:"",userDataClear:false
+    users: "",error:"",userDataClear:false,selectedUser:"",userTasks:""
 }, action) => {
     switch (action.type) {
         case "SET_USERS_DATA":
@@ -20,6 +20,18 @@ const userReducer = (state = {
             userDataClear: action.payload
         };
         break;
+        case "SELECTED_USER_DATA":
+            state = {
+                ...state,
+                selectedUser: action.payload
+            };
+            break;
+        case "SET_USER_TASKS":
+            state = {
+                ...state,
+                userTasks: action.payload
+            };
+            break;
     }
     return state;
 };
