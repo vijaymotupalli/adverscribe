@@ -17,11 +17,11 @@ class User extends React.Component {
         const {context,history} = this.props
         console.log("test",user)
         this.props.selectedUserData(user);
-        history.push('userdetails')
+        history.push(this.props.match.url+"/"+user.email)
         console.log(this.props)
     }
     render() {
-        console.log("----props in user page---",this.props);
+        console.log("----props users page---",this.props);
         var temp = this.props.users ? this.props.users : []
         var listUsers = temp.map(function (user) {
             return (

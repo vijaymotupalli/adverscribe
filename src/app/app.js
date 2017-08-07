@@ -1,7 +1,7 @@
 import  React from "react";
 import Login from './containers/login'
 import Main from './containers/main'
-import { BrowserRouter,Route ,Redirect} from 'react-router-dom'
+import { BrowserRouter,HashRouter ,Route ,Redirect} from 'react-router-dom'
 class App extends React.Component {
     constructor(props){
         super(props)

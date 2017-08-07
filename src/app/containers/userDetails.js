@@ -1,14 +1,16 @@
 import React from "react";
 import {connect} from "react-redux";
 import './styles.css';
-import {getUsers,getUserTasks} from "../actions/index";
+import {getUsers,getUserTasks,getUserDetails} from "../actions/index";
 import {Tasks} from "../components/tasks"
+import  moment from 'moment'
 
 class UserDetails extends React.Component {
     constructor(props) {
         super(props);
-        this.props.getUserTasks(props.selectedUser);
-        console.log("-----props in userdetails-----",props)
+        this.props.getUserDetails(props.match.params.userId)
+        this.props.getUserTasks(props.match.params.userId);
+        console.log("-----props in userdetails as page-----",props)
     }
     render() {
         return (
@@ -24,7 +26,7 @@ class UserDetails extends React.Component {
                                         <p ><strong >Name</strong> <span >{this.props.selectedUser.name}</span></p>
                                     </div>
                                     <div  className="col-md-4 text-center">
-                                        <p ><strong >Date of Joining</strong> <span >{this.props.selectedUser.createdAt}</span></p>
+                                        <p ><strong >Date of Joining</strong> <span >{moment(this.props.selectedUser.createdAt).format('L')}</span></p>
                                         <p ><strong >Active </strong> <span >{this.props.selectedUser.isActive && "true"} </span></p>
                                     </div>
                                     <div  className="col-md-4 text-right">
@@ -60,7 +62,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getUserTasks:(user)=> dispatch(getUserTasks(user))
+        getUserTasks:(user)=> dispatch(getUserTasks(user)),
+        getUserDetails:(email)=> dispatch(getUserDetails(email))
     };
 }
 

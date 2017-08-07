@@ -1,5 +1,5 @@
 import React from "react";
-import {addTask,setTaskError} from "../actions/index";
+import {addTask,setTaskError,getUsers} from "../actions/index";
 import {connect} from "react-redux";
 import {BrowserRouter, Route, Redirect} from 'react-router-dom'
 import './styles.css';
@@ -19,7 +19,7 @@ class Task extends React.Component {
             assignTo: "",
             error:""
         };
-
+        this.props.getUsers();
         this.onSubmit = this.onSubmit.bind(this)
     }
     onSubmit(e) {
@@ -178,6 +178,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addTask: (task) => dispatch(addTask(task)),
+        getUsers: () => dispatch(getUsers()),
         setTaskError: (error) => dispatch(setTaskError(error)),
 
     };

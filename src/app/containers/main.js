@@ -28,7 +28,7 @@ class Main extends React.Component {
                     <Route exact  path={match.url+'/adduser'} component={newAdd} />
                     <Route exact  path={match.url+'/users'} component={Users} />
                     <Route exact  path={match.url+'/tasks'} component={AssignTask} />
-                    <Route exact  path={match.url+'/userdetails'} component={UserDetails} />
+                    <Route exact  path={match.url+'/users/:userId'} component={UserDetails} />
                 </div>
             </div>
         );

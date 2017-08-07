@@ -175,13 +175,23 @@ export function setUserTasks(userTasks) {
         payload:userTasks
     }
 }
-export function getUserTasks(user) {
+export function getUserTasks(email) {
+
+    console.log("-----email from getUserTasks-----",email)
 
     return  dispatch => {
-        var userTasks = "/tasks/"+user.email;
+        var userTasks = "/tasks/"+email;
         axios.get(userTasks)
             .then(function(response) {
                 dispatch(setUserTasks(response.data))
+            });
+    }
+}
+export function getUserDetails(email) {
+    return  dispatch => {
+        var userDetails = "/users"+"/"+email;
+        axios.get(userDetails).then(function(response) {
+                dispatch(selectedUserData(response.data))
             });
     }
 }

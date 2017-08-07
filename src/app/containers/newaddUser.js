@@ -24,7 +24,9 @@ class Adduser extends React.Component {
         this.setState({error:""})
         this.props.setUserError("");
         const {email, confirmEmail, name, role} = this.state;
-        if (email == confirmEmail) {
+        if(!((/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/).test(email))){ this.setState({
+            error: "Email Not Valid"
+        })}else if (email == confirmEmail) {
            this.props.addUser({email: email, name: name, role: role}).then((result,err)=> {
                if(!err){
                    this.setState({
@@ -39,7 +41,7 @@ class Adduser extends React.Component {
         }
     }
     render() {
-        console.log("----satet----",this.state)
+        console.log("----state in new user----",this.state)
         return (
             <div>
                 <div className="container" >
@@ -115,7 +117,7 @@ class Adduser extends React.Component {
                                                     style={{width:"100%",background:"#fff",color:"#333"}}>CANCEL</button>
                                         </div>
                                         <div className="col-md-6">
-                                            <button type="button" className="btn blackButton" onClick={this.onSubmit} style={{width:"100%"}}>CREATE</button>
+                                            <button type="button" className="btn blackButton"  onClick={this.onSubmit} style={{width:"100%"}}>CREATE</button>
                                         </div>
                                     </div>
                                 </div>
