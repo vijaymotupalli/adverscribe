@@ -40,9 +40,11 @@ class User extends React.Component {
                     <Newadd/>
                     <div className="row" id="title">
                         <div className="col-sm-8" id="userslist">Users List</div>
-                        <div className="col-sm-4"><button type="button" id="adduser" className="btn btn-info btn-lg" data-toggle="modal"
+
+                        <div  style={{display:((this.props.permissions.indexOf("ADD_USER"))> -1) ? "show":"none"}} className="col-sm-4"><button type="button" id="adduser" className="btn btn-info btn-lg" data-toggle="modal"
                                                           data-target="#myModal" >Add User
                         </button></div>
+
                     </div>
                     <div className="gridTable">
                         <table className="table table-striped table-bordered" cellSpacing="0" width="100%">
@@ -70,6 +72,7 @@ class User extends React.Component {
 const mapStateToProps = (state) => {
     return {
         users: state.User.users,
+        permissions:state.Permissions.permissions
     };
 }
 

@@ -11,7 +11,7 @@ class Menu extends React.Component {
 
     onSubmit(e) {
         localStorage.clear()
-        this.context.history.push("/");
+        console.log("-----props in signup----",this.props);
     }
 
     openNav(e) {
@@ -38,7 +38,7 @@ class Menu extends React.Component {
                             src="../../assets/images/multiple-users-silhouette.png"/> Users </NavLink>
                         <NavLink to={match.url+'/tasks'}  activeClassName="active"  exact><img
                             src="../../assets/images/multiple-users-silhouette.png"/> Tasks </NavLink>
-                        <NavLink to={match.url+'/signout'}  activeClassName="active" onClick={this.onSubmit} exact><img
+                        <NavLink to="/"  activeClassName="active" onClick={this.onSubmit} exact><img
                             src="../../assets/images/power.png"/> Signout </NavLink>
                     </div>
                 </div>

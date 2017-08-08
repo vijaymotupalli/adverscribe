@@ -9,7 +9,7 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
 
-        if(localStorage.getItem("userToken")){
+        if(localStorage.getItem("loginuser")){
             this.props.setLoginSuccess(true);
         }
     }

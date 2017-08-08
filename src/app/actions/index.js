@@ -1,6 +1,7 @@
 var axios = require('axios');
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.common['accesstoken'] =  ""
 
 import {SET_LOGIN_PENDING,SET_LOGIN_SUCCESS,SET_LOGIN_ERROR} from './types'
 
@@ -34,34 +35,43 @@ export function googleLogin(email) {
             email: email,
         })
             .then(function (response,err) {
-                localStorage.setItem("userToken",email);
-                console.log("----logged in user----",response.data)
-                dispatch(setLoginPending(false));
-                dispatch(setLoginSuccess(true));
+                var userData = response.data
+                localStorage.setItem("loginuser",JSON.stringify(userData));
+                axios.defaults.headers.common['accesstoken'] = JSON.parse(localStorage.getItem("loginuser")) ? JSON.parse(localStorage.getItem('loginuser')).access_token :"";
+                    dispatch(setLoginPending(false));
+                   dispatch(setLoginSuccess(true));
             })
             .catch(function (error) {
                 if (error.response) {
-                    console.log(error.response.data);
+                    dispatch(setLoginPending(false));
                     dispatch(setLoginError(error.response.data.msg))
                 } else if (error.request) {
                     console.log(error.request);
                 } else {
-                    console.log('Error Message', error.message);
+                    console.log('Error Message from ', error.message);
                 }
             });
     }
 }
 export function getUsers() {
     return  dispatch => {
-        axios.get('/users')
+        axios.get('/api/users')
             .then(function(response) {
                 dispatch(setUsersData(response.data))
             });
     }
 }
+export function getRoles() {
+    return  dispatch => {
+        axios.get('/api/users/roles')
+            .then(function(response) {
+                dispatch(setRoles(response.data))
+            });
+    }
+}
 export function getTasks() {
     return  dispatch => {
-        axios.get('/tasks')
+        axios.get('/api/tasks')
             .then(function(response) {
                 dispatch(setTask(response.data))
             });
@@ -97,6 +107,27 @@ export function setTask(task) {
         payload:task
     }
 }
+export function setRoles(roles) {
+
+    return {
+        type: "SET_ROLES_DATA",
+        payload:roles
+    }
+}
+export function setHeaders(token) {
+    return  dispatch => {
+        axios.defaults.headers.common['accesstoken'] = token
+    }
+
+}
+export function setPermissions(permissions) {
+    return {
+        type: "SET_PERMISSIONS",
+        payload:permissions
+    }
+}
+
+
 export function clearUserError(userError) {
 
     return {
@@ -114,7 +145,7 @@ export function clearUserData(flag) {
 export function addUser(user) {
     return  dispatch => {
         return new Promise (function (resolve,reject) {
-            axios.post('/users', {
+            axios.post('/api/users', {
                 email: user.email,
                 role: user.role,
                 name: user.name
@@ -138,7 +169,7 @@ export function addUser(user) {
 export function addTask(task) {
     return  dispatch => {
         return new Promise (function (resolve,reject) {
-            axios.post('/tasks', {
+            axios.post('/api/tasks', {
                 title:task.title,
                 description:task.description,
                 startDate:task.startDate,
@@ -180,7 +211,7 @@ export function getUserTasks(email) {
     console.log("-----email from getUserTasks-----",email)
 
     return  dispatch => {
-        var userTasks = "/tasks/"+email;
+        var userTasks = "/api/tasks/"+email;
         axios.get(userTasks)
             .then(function(response) {
                 dispatch(setUserTasks(response.data))
@@ -189,7 +220,7 @@ export function getUserTasks(email) {
 }
 export function getUserDetails(email) {
     return  dispatch => {
-        var userDetails = "/users"+"/"+email;
+        var userDetails = "/api/users"+"/"+email;
         axios.get(userDetails).then(function(response) {
                 dispatch(selectedUserData(response.data))
             });

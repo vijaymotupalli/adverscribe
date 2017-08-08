@@ -1,5 +1,5 @@
 import React from "react";
-import { setLoginSuccess } from "../actions/index";
+import { setLoginSuccess,setHeaders,setPermissions } from "../actions/index";
 import {connect} from "react-redux";
 import Menu from './menu'
 import Users from './users'
@@ -13,8 +13,11 @@ import './styles.css'
 class Main extends React.Component {
     constructor(props) {
         super(props);
-        console.log("------user-----",localStorage.getItem("userToken"))
-        if(!localStorage.getItem("userToken")){
+        var token = JSON.parse(localStorage.getItem("loginuser")) ? JSON.parse(localStorage.getItem('loginuser')).access_token :"";
+        var permissions = JSON.parse(localStorage.getItem("loginuser")) ? JSON.parse(localStorage.getItem('loginuser')).role.privileges :"";
+        this.props.setPermissions(permissions);
+        this.props.setHeaders(token);
+        if(!localStorage.getItem("loginuser")){
             this.props.setLoginSuccess(false);
             this.props.history.push("/")
         }
@@ -24,6 +27,8 @@ class Main extends React.Component {
         return (
             <div id="testMain">
                 <div ><Route  component={Menu} /></div>
+                <div >Welcome to TFT</div>
+
                 <div  id="toggleMenu">
                     <Route exact  path={match.url+'/adduser'} component={newAdd} />
                     <Route exact  path={match.url+'/users'} component={Users} />
@@ -36,10 +41,12 @@ class Main extends React.Component {
 };
 
 const mapStateToProps = (state) => {
+    console.log("-----state in main-----",state)
     return {
         isLoginPending: state.Login.isLoginPending,
         isLoginSuccess: state.Login.isLoginSuccess,
-        loginError: state.Login.loginError
+        loginError: state.Login.loginError,
+        permissions:state.Permissions.permissions
     };
 };
 
@@ -47,7 +54,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch)=> {
 
     return {
-        setLoginSuccess: (status) => dispatch(setLoginSuccess(status))
+        setLoginSuccess: (status) => dispatch(setLoginSuccess(status)),
+        setHeaders: (token) => dispatch(setHeaders(token)),
+        setPermissions: (permissions) => dispatch(setPermissions(permissions)),
+
     };
 
 }
