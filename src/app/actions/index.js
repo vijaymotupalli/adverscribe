@@ -128,11 +128,11 @@ export function setPermissions(permissions) {
 }
 
 
-export function clearUserError(userError) {
+export function setModalStatus(status) {
 
     return {
-        type: "CLEAR_USER_ERROR",
-        payload:userError
+        type: "SET_MODAL_STATUS",
+        payload:status
     }
 }
 export function clearUserData(flag) {
@@ -154,6 +154,33 @@ export function addUser(user) {
                     dispatch(getUsers());
                     dispatch(clearUserData(true))
                     dispatch(setUserError(""));
+                    resolve()
+                })
+                .catch(function (error) {
+                    if (error.response) {
+                        dispatch(setUserError(error.response.data.msg.message ? error.response.data.msg.message :error.response.data.msg))
+                    }
+                    reject()
+                });
+        })
+
+    }
+}
+
+export function editUser(user) {
+    return  dispatch => {
+        return new Promise (function (resolve,reject) {
+            axios.put('/api/users', {
+                email: user.email,
+                role: user.role,
+                name: user.name,
+                isActive:user.isActive
+            })
+                .then(function (response,err) {
+                    dispatch(getUserDetails(user.email))
+                    dispatch(clearUserData(true))
+                    dispatch(setUserError(""));
+                    dispatch(setModalStatus(false));
                     resolve()
                 })
                 .catch(function (error) {

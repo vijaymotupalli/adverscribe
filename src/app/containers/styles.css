@@ -249,6 +249,10 @@ div.dataTables_wrapper div.dataTables_info {
     margin-left: 50px;
     color: #fff;
 }
+.btn.focus, .btn:focus, .btn:hover {
+    color: white;
+    text-decoration: none;
+}
 
 #main {
     /*transition: margin-left .5s;*/

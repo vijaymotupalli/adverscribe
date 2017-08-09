@@ -31,6 +31,9 @@ class User extends React.Component {
                     <td>{user.role}</td>
                     <td>{user.isActive ? "Active" : "InActive"}</td>
                     <td>{user.createdAt}</td>
+                    <td>
+                        <button style={{display:((this.props.permissions.indexOf("DELETE_USER"))> -1) ? "show":"none"}} className="btn blackButton">Remove</button>
+                    </td>
                 </tr>
             );
         }, this);
@@ -41,9 +44,11 @@ class User extends React.Component {
                     <div className="row" id="title">
                         <div className="col-sm-8" id="userslist">Users List</div>
 
-                        <div  style={{display:((this.props.permissions.indexOf("ADD_USER"))> -1) ? "show":"none"}} className="col-sm-4"><button type="button" id="adduser" className="btn btn-info btn-lg" data-toggle="modal"
-                                                          data-target="#myModal" >Add User
-                        </button></div>
+                        <div  style={{display:((this.props.permissions.indexOf("ADD_USER"))> -1) ? "show":"none"}} className="col-sm-4">
+                            <button type="button" id="adduser" className="btn blackButton" data-toggle="modal"
+                                                          data-target="#myUserAddModal" >Add User
+                        </button>
+                        </div>
 
                     </div>
                     <div className="gridTable">
@@ -55,6 +60,8 @@ class User extends React.Component {
                                 <th>Role</th>
                                 <th>Is Active</th>
                                 <th>Added At</th>
+                                <th>Action</th>
+
 
                             </tr>
                             </thead>
@@ -72,6 +79,7 @@ class User extends React.Component {
 const mapStateToProps = (state) => {
     return {
         users: state.User.users,
+        selectedUser: state.User.selectedUser,
         permissions:state.Permissions.permissions
     };
 }

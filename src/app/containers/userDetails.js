@@ -4,13 +4,13 @@ import './styles.css';
 import {getUsers,getUserTasks,getUserDetails} from "../actions/index";
 import {Tasks} from "../components/tasks"
 import  moment from 'moment'
+import EditUser from './editUser'
 
 class UserDetails extends React.Component {
     constructor(props) {
         super(props);
         this.props.getUserDetails(props.match.params.userId)
         this.props.getUserTasks(props.match.params.userId);
-        console.log("-----props in userdetails as page-----",props)
     }
     render() {
         return (
@@ -27,10 +27,11 @@ class UserDetails extends React.Component {
                                     </div>
                                     <div  className="col-md-4 text-center">
                                         <p ><strong >Date of Joining</strong> <span >{moment(this.props.selectedUser.createdAt).format('L')}</span></p>
-                                        <p ><strong >Active </strong> <span >{this.props.selectedUser.isActive && "true"} </span></p>
+                                        <p ><strong >Active </strong> <span >{this.props.selectedUser.isActive ?  "Active" :"In Active"} </span></p>
                                     </div>
                                     <div  className="col-md-4 text-right">
-                                        <button  className="btn blackButton">Edit</button>
+                                        <button  style={{display:((this.props.permissions.indexOf("EDIT_USER"))> -1) ? "show":"none"}} className="btn blackButton" data-toggle="modal"
+                                                data-target="#myUserEditModal">Edit</button>
                                         <button  className="btn blackButton">Delete User</button>
                                     </div>
                                 </div>
@@ -43,7 +44,7 @@ class UserDetails extends React.Component {
                         </div>
                     </div>
                 </div>
-
+                {this.props.selectedUser  && <EditUser/>}
             </div>
 
         )
@@ -52,10 +53,11 @@ class UserDetails extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    console.log("----userdetails state----", state)
     return {
         selectedUser: state.User.selectedUser,
-        userTasks:state.User.userTasks
+        userTasks:state.User.userTasks,
+        permissions:state.Permissions.permissions,
+        boardAddModalShow:state.User.boardAddModalShow,
 
     };
 }
