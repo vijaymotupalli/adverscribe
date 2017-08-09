@@ -22,7 +22,7 @@ class AssignTask extends React.Component {
                     <div className="taskContainer">
                         <h4><b>{task.title}</b></h4>
                         <p>{moment(task.startDate).format('L')}</p>
-                        <p>{task.assignTo}</p>
+                        <p>{task.assignTo.name}</p>
                     </div>
                 </div>
             )

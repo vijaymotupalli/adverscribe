@@ -22,7 +22,7 @@ class Login extends React.Component {
         let {isLoginPending, isLoginSuccess, loginError} = this.props;
         return (
             <div>
-                { isLoginSuccess && <Redirect to={{pathname: '/dashboard/users'}}/>}
+                { isLoginSuccess && <Redirect to={{pathname: '/dashboard/myprofile'}}/>}
                 <div className="bgLogin">
                     <div className="logo">
                     </div>

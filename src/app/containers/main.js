@@ -4,8 +4,7 @@ import {connect} from "react-redux";
 import Menu from './menu'
 import Users from './users'
 import UserDetails from './userDetails'
-import Adduser from './addUser'
-import newAdd from './newaddUser'
+import Myprofile from './mypofile'
 import AssignTask from './assignTask'
 import { BrowserRouter,Route ,Redirect} from 'react-router-dom'
 import './styles.css'
@@ -30,10 +29,10 @@ class Main extends React.Component {
                 <div >Welcome to TFT</div>
 
                 <div  id="toggleMenu">
-                    <Route exact  path={match.url+'/adduser'} component={newAdd} />
-                    <Route exact  path={match.url+'/users'} component={Users} />
+                    {(this.props.permissions.indexOf("VIEW_USERS")> -1) && <Route exact  path={match.url+'/users'} component={Users} />}
                     <Route exact  path={match.url+'/tasks'} component={AssignTask} />
                     <Route exact  path={match.url+'/users/:userId'} component={UserDetails} />
+                    <Route exact  path={match.url+'/myprofile'} component={Myprofile} />
                 </div>
             </div>
         );

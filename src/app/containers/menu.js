@@ -7,6 +7,7 @@ import {NavLink} from 'react-router-dom';
 class Menu extends React.Component {
     constructor(props) {
         super(props)
+        console.log("----menu props---",props)
     }
 
     onSubmit(e) {
@@ -34,6 +35,8 @@ class Menu extends React.Component {
                     <a className="closebtn" onClick={this.closeNav}>&times;</a>
                     <img src="../../assets/images/logo.png" className="logo2"/>
                     <div className="mainLinks">
+                        <NavLink to={match.url+'/myprofile'}  activeClassName="active"  exact><img
+                            src="../../assets/images/multiple-users-silhouette.png"/> My Profile </NavLink>
                         <NavLink to={match.url+'/users'}  activeClassName="active"  exact><img
                             src="../../assets/images/multiple-users-silhouette.png"/> Users </NavLink>
                         <NavLink to={match.url+'/tasks'}  activeClassName="active"  exact><img
@@ -47,9 +50,6 @@ class Menu extends React.Component {
                     <span className="mdi mdi-menu menuIco" id="menu" onClick={this.openNav}>Menu</span>
                 </div>
             </div>
-
-
-
         )
     }
 
