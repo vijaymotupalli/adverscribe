@@ -1,5 +1,5 @@
 const userReducer = (state = {
-    tasks: "",error:"",taskDataClear:false
+    tasks: "",error:"",taskDataClear:false,selectedTask:""
 }, action) => {
     switch (action.type) {
         case "SET_TASKS_DATA":
@@ -18,6 +18,12 @@ const userReducer = (state = {
         state = {
             ...state,
             taskDataClear: action.payload
+        };
+        break;
+        case "SELECTED_TASK_DATA":
+        state = {
+            ...state,
+            selectedTask: action.payload
         };
         break;
     }

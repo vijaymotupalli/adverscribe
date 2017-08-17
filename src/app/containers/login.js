@@ -8,21 +8,24 @@ import './styles.css';
 class Login extends React.Component {
     constructor(props) {
         super(props);
-
-        if(localStorage.getItem("loginuser")){
+        console.log("-----in login page-----", props)
+        if (localStorage.getItem("loginuser")) {
             this.props.setLoginSuccess(true);
         }
     }
     onResponseGoogle(response){
-        console.log("google response",response);
+        console.log("google from response",response);
         if(response.profileObj.email)this.props.googleLogin(response.profileObj.email);
-
     }
     render(){
         let {isLoginPending, isLoginSuccess, loginError} = this.props;
+        const permissions = JSON.parse(localStorage.getItem('loginuser')) ? JSON.parse(localStorage.getItem('loginuser')).role.privileges :[]
         return (
             <div>
-                { isLoginSuccess && <Redirect to={{pathname: '/dashboard/myprofile'}}/>}
+                { JSON.parse(localStorage.getItem('loginuser')) && <Redirect to={{pathname:permissions.indexOf("VIEW_USERS")> -1 ? '/dashboard/tasks' :
+                    '/dashboard/mytasks'
+                }}/>
+                }
                 <div className="bgLogin">
                     <div className="logo">
                     </div>

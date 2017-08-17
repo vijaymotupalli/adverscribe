@@ -8,15 +8,15 @@ import 'style-loader!react-date-picker/index.css'
 import DatePicker from 'react-datepicker'
 var moment = require('moment');
 
-class Task extends React.Component {
+class EditTask extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: "",
-            description: "",
-            startDate: "",
-            endDate: "",
-            assignTo: "",
+            title: props.selectedTask.title ? props.selectedTask.title :"",
+            description: props.selectedTask.description ?props.selectedTask.description:"",
+            startDate: props.selectedTask.startDate ? props.selectedTask.startDate :"",
+            endDate: props.selectedTask.endDate ? props.selectedTask.endDate :"",
+            assignTo: props.selectedTask.assignTo ? props.selectedTask.assignTo._id :"",
             error:""
         };
         this.props.getUsers();
@@ -34,6 +34,7 @@ class Task extends React.Component {
             endDate: endDate,
             assignTo: assignTo
         }).then((result,err)=>{
+            console.log("----in promise------",err,result)
             if(!err){
                 this.setState({
                     title: "",
@@ -48,17 +49,18 @@ class Task extends React.Component {
     }
 
     render() {
+        console.log("----local task state---",this.state)
         var users = this.props.users ? this.props.users : []
         var options = users.map(function (user) {
             return (
-               <option key={user._id} value={user._id}>{user.name}</option>
+                <option key={user._id} value={user._id}>{user.name}</option>
             );
         }, this);
 
         return (
             <div>
                 <div className="container" >
-                    <div className="modal fade" id="myModal" role="dialog">
+                    <div className="modal fade" id="editTask" role="dialog">
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header">
@@ -85,7 +87,7 @@ class Task extends React.Component {
                                                 </div>
                                                 <div className="col-md-9">
                                                     <textarea placeholder="Enter Description" className="form-control" rows="5" id="comment"
-                                                           onChange={e => this.setState({description: e.target.value})} value={this.state.description} />
+                                                              onChange={e => this.setState({description: e.target.value})} value={this.state.description} />
                                                 </div>
                                             </div>
                                         </div>
@@ -96,10 +98,10 @@ class Task extends React.Component {
                                                 </div>
                                                 <div className="col-md-9">
                                                     <DatePicker placeholder="Select Date"
-                                                        onChange={e => this.setState({startDate: e})} value={this.state.startDate}
-                                                        dateFormat="DD/MM/YYYY"
-                                                        selected={this.state.startDate}
-                                                        className="form-control"
+                                                                onChange={e => this.setState({startDate: e})} value={this.state.startDate}
+                                                                dateFormat="DD/MM/YYYY"
+                                                                selected={this.state.startDate}
+                                                                className="form-control"
                                                     />
                                                 </div>
                                             </div>
@@ -112,10 +114,10 @@ class Task extends React.Component {
                                                 </div>
                                                 <div className="col-md-9">
                                                     <DatePicker placeholder="Select Date"
-                                                        onChange={e => this.setState({endDate: e})} value={this.state.endDate}
-                                                        selected={this.state.endDate}
-                                                        dateFormat="DD/MM/YYYY"
-                                                        className="form-control"
+                                                                onChange={e => this.setState({endDate: e})} value={this.state.endDate}
+                                                                selected={this.state.endDate}
+                                                                dateFormat="DD/MM/YYYY"
+                                                                className="form-control"
                                                     />
                                                 </div>
                                             </div>
@@ -165,9 +167,11 @@ class Task extends React.Component {
 ;
 
 const mapStateToProps = (state) => {
+    console.log("-----state in user---",state.User)
     return {
         taskError: state.Tasks.error,
-        users: state.User.users
+        users: state.User.users,
+        selectedTask:state.Tasks.selectedTask
     };
 }
 
@@ -181,4 +185,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Task);
+export default connect(mapStateToProps, mapDispatchToProps)(EditTask);

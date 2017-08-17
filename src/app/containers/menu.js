@@ -7,12 +7,12 @@ import {NavLink} from 'react-router-dom';
 class Menu extends React.Component {
     constructor(props) {
         super(props)
-        console.log("----menu props---",props)
+        console.log("-----signout props----",props)
+        this.onSignout = this.onSignout.bind(this)
     }
 
-    onSubmit(e) {
+    onSignout(e) {
         localStorage.clear()
-        console.log("-----props in signup----",this.props);
     }
 
     openNav(e) {
@@ -26,8 +26,11 @@ class Menu extends React.Component {
         document.getElementById("toggleMenu").style.marginLeft = "0";
         document.getElementById("menu").style.marginLeft = "0";
     }
-
     render() {
+        const privileges = JSON.parse(localStorage.getItem("loginuser"))?
+            JSON.parse(localStorage.getItem("loginuser")).role.privileges :[]
+        const canSeeUsers = privileges.indexOf("VIEW_USERS")> -1
+        const canSeeTasks = privileges.indexOf("VIEW_TASKS")> -1
         const {match} = this.props
         return (
             <div className="container-fluid">
@@ -37,11 +40,13 @@ class Menu extends React.Component {
                     <div className="mainLinks">
                         <NavLink to={match.url+'/myprofile'}  activeClassName="active"  exact><img
                             src="../../assets/images/multiple-users-silhouette.png"/> My Profile </NavLink>
-                        <NavLink to={match.url+'/users'}  activeClassName="active"  exact><img
-                            src="../../assets/images/multiple-users-silhouette.png"/> Users </NavLink>
-                        <NavLink to={match.url+'/tasks'}  activeClassName="active"  exact><img
-                            src="../../assets/images/multiple-users-silhouette.png"/> Tasks </NavLink>
-                        <NavLink to="/"  activeClassName="active" onClick={this.onSubmit} exact><img
+                        { canSeeUsers && <NavLink to={match.url+'/users'}  activeClassName="active"  exact><img
+                            src="../../assets/images/multiple-users-silhouette.png"/> Users </NavLink> }
+                        { canSeeTasks &&  <NavLink to={match.url+'/tasks'}  activeClassName="active"  exact><img
+                            src="../../assets/images/multiple-users-silhouette.png"/> Tasks </NavLink> }
+                        <NavLink to={match.url+'/mytasks'}  activeClassName="active"  exact><img
+                            src="../../assets/images/multiple-users-silhouette.png"/> My Tasks </NavLink>
+                        <NavLink to="/" activeClassName="active" onClick={this.onSignout} exact><img
                             src="../../assets/images/power.png"/> Signout </NavLink>
                     </div>
                 </div>

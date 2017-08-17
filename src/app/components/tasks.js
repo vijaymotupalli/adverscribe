@@ -11,7 +11,7 @@ export const Tasks = (props) => {
                 <div className="taskContainer" style={{backgroundColor: props.color}}>
                     <h4><b>{task.title}</b></h4>
                     <p>{moment(task.startDate).format('L')}</p>
-                    <p>{task.assignTo}</p>
+                    <p>{task.assignTo.name}</p>
                 </div>
             </div>
         )

@@ -3,8 +3,10 @@ import {connect} from "react-redux";
 import './styles.css';
 import {getUsers,getUserTasks,getUserDetails} from "../actions/index";
 import {Tasks} from "../components/tasks"
+import TasksNew from "./tasks"
 import  moment from 'moment'
 import EditUser from './editUser'
+
 
 class UserDetails extends React.Component {
     constructor(props) {
@@ -38,13 +40,15 @@ class UserDetails extends React.Component {
                             </div>
                         </div>
                         <div  className="row">
-                            {this.props.userTasks.todayTasks && <Tasks items={this.props.userTasks.todayTasks} title="Today Tasks" color="antiquewhite" /> }
-                            {this.props.userTasks.pendingTasks && <Tasks items={this.props.userTasks.pendingTasks} title="Pending Tasks" color="burlywood" /> }
-                            {this.props.userTasks.upcomingTasks && <Tasks items={this.props.userTasks.upcomingTasks} title="Upcoming Tasks" color="#eee"/> }
+
+                            {this.props.userTasks.todayTasks && <TasksNew items={this.props.userTasks.todayTasks} title="Today Tasks" color="antiquewhite" /> }
+                            {this.props.userTasks.pendingTasks && <TasksNew items={this.props.userTasks.pendingTasks} title="Pending Tasks" color="antiquewhite" /> }
+                            {this.props.userTasks.upcomingTasks && <TasksNew items={this.props.userTasks.upcomingTasks} title="Upcoming Tasks" color="antiquewhite" /> }
+
                         </div>
                     </div>
                 </div>
-                {this.props.selectedUser  && <EditUser/>}
+                {this.props.selectedUser  && <EditUser />}
             </div>
 
         )
@@ -53,6 +57,7 @@ class UserDetails extends React.Component {
 
 
 const mapStateToProps = (state) => {
+    console.log("----state in user new details----",state)
     return {
         selectedUser: state.User.selectedUser,
         userTasks:state.User.userTasks,

@@ -12,7 +12,6 @@ class AssignTask extends React.Component {
     componentDidMount() {
         this.props.getTasks();
     }
-
     render() {
         console.log("----props in tasks---",this.props);
         var temp = this.props.tasks ? this.props.tasks : []

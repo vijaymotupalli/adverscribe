@@ -7,7 +7,7 @@ import './styles.css';
 class EditUser extends React.Component {
     constructor(props) {
         super(props);
-        console.log("----props in edit----",props)
+        console.log("----props in edit use test----",props)
         this.props.getRoles();
         this.state = {
             email: props.selectedUser.email,
@@ -32,6 +32,9 @@ class EditUser extends React.Component {
         }
     }
     render() {
+        const privileges = this.props.permissions
+        const canEditRole = privileges.indexOf("EDIT_ROLE")> -1
+
         var roles = this.props.roles ? this.props.roles : []
         var listRoles = roles.map(function (role) {
             return (
@@ -79,7 +82,7 @@ class EditUser extends React.Component {
                                                 </div>
                                                 <div className="col-md-9">
                                                     <select className="form-control" id="sel1" onChange={e => this.setState({role: e.target.value})}
-                                                            value={this.state.role}>
+                                                            value={this.state.role} disabled={canEditRole ? "":"disabled"} >
                                                         <option value="" selected="selected" disabled>--Select Role--</option>
                                                         {listRoles}
                                                     </select>
@@ -132,7 +135,8 @@ const mapStateToProps = (state) => {
     return {
         userError: state.User.error,
         roles:state.User.roles,
-        selectedUser: state.User.selectedUser
+        selectedUser: state.User.selectedUser,
+        permissions:state.Permissions.permissions
     };
 }
 

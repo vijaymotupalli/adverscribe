@@ -150,7 +150,6 @@ const mapDispatchToProps = (dispatch) => {
         addUser: (user) => dispatch(addUser(user)),
         getRoles: () => dispatch(getRoles()),
         setUserError: (error) => dispatch(setUserError(error)),
-
     };
 }
 

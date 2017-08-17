@@ -13,10 +13,12 @@ export function setLoginPending(isLoginPending) {
 }
 
 export function setLoginSuccess(isLoginSuccess) {
-    return {
-        type: SET_LOGIN_SUCCESS,
-        isLoginSuccess
-    };
+
+        return {
+            type: SET_LOGIN_SUCCESS,
+            isLoginSuccess
+        };
+
 }
 
 export function setLoginError(loginError) {
@@ -224,6 +226,13 @@ export function selectedUserData(selectedUserData) {
     return {
         type: "SELECTED_USER_DATA",
         payload:selectedUserData
+    }
+}
+export function selectedTaskData(selectedTaskData) {
+
+    return {
+        type: "SELECTED_TASK_DATA",
+        payload:selectedTaskData
     }
 }
 export function setUserTasks(userTasks) {
