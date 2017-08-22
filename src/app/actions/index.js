@@ -38,10 +38,18 @@ export function googleLogin(email) {
         })
             .then(function (response,err) {
                 var userData = response.data
-                localStorage.setItem("loginuser",JSON.stringify(userData));
-                axios.defaults.headers.common['accesstoken'] = JSON.parse(localStorage.getItem("loginuser")) ? JSON.parse(localStorage.getItem('loginuser')).access_token :"";
-                    dispatch(setLoginPending(false));
-                   dispatch(setLoginSuccess(true));
+                    localStorage.setItem("loginuser",JSON.stringify(userData));
+                    axios.defaults.headers.common['accesstoken'] = JSON.parse(localStorage.getItem("loginuser")) ? JSON.parse(localStorage.getItem('loginuser')).access_token :"";
+                axios.post("api/userlog/",{
+                    signInTime:new Date(),
+                    userId:userData.email
+                }).then(function (logResponse,logErr) {
+                    if(logResponse){
+                        localStorage.setItem("logId",JSON.stringify(logResponse.data._id))
+                        dispatch(setLoginPending(false));
+                        dispatch(setLoginSuccess(true));
+                    }
+                })
             })
             .catch(function (error) {
                 if (error.response) {
