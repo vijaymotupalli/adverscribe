@@ -7,7 +7,6 @@ import './styles.css';
 class EditUser extends React.Component {
     constructor(props) {
         super(props);
-        console.log("----props in edit use test----",props)
         this.props.getRoles();
         this.state = {
             email: props.selectedUser.email,
@@ -83,7 +82,7 @@ class EditUser extends React.Component {
                                                 <div className="col-md-9">
                                                     <select className="form-control" id="sel1" onChange={e => this.setState({role: e.target.value})}
                                                             value={this.state.role} disabled={canEditRole ? "":"disabled"} >
-                                                        <option value="" selected="selected" disabled>--Select Role--</option>
+                                                        <option value="" defaultValue disabled>--Select Role--</option>
                                                         {listRoles}
                                                     </select>
                                                 </div>
@@ -131,7 +130,6 @@ class EditUser extends React.Component {
 ;
 
 const mapStateToProps = (state) => {
-    console.log("----satet in edit user---",state);
     return {
         userError: state.User.error,
         roles:state.User.roles,

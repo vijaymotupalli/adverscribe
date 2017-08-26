@@ -21,9 +21,9 @@ class UserDetails extends React.Component {
                 <div  className="row">
                     <div  className="col-md-12">
                         <div  className="row">
-                            {this.props.userTasks.todayTasks && <TasksNew items={this.props.userTasks.todayTasks} title="Today Tasks" color="antiquewhite" /> }
-                            {this.props.userTasks.pendingTasks && <TasksNew items={this.props.userTasks.pendingTasks} title="Pending Tasks" color="burlywood" /> }
-                            {this.props.userTasks.upcomingTasks && <TasksNew items={this.props.userTasks.upcomingTasks} title="Upcoming Tasks" color="#eee"/> }
+                            {this.props.userTasks && this.props.userTasks.todayTasks && <TasksNew items="todayTasks"  title="Today Tasks" color="antiquewhite" /> }
+                            {this.props.userTasks && this.props.userTasks.pendingTasks && <TasksNew items="pendingTasks" title="Pending Tasks" color="burlywood" /> }
+                            {this.props.userTasks && this.props.userTasks.upcomingTasks && <TasksNew items="upcomingTasks" title="Upcoming Tasks" color="#eee"/> }
                         </div>
                     </div>
                 </div>
@@ -35,6 +35,7 @@ class UserDetails extends React.Component {
 
 
 const mapStateToProps = (state) => {
+    console.log("-----usertasks-----",state)
     return {
         selectedUser: state.User.selectedUser,
         userTasks:state.User.userTasks,

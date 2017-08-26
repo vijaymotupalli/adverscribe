@@ -1,5 +1,5 @@
 const userReducer = (state = {
-    users: "",error:"",userDataClear:false,selectedUser:"",userTasks:"",roles:"",boardAddModalShow:true
+    users: [],error:"",userDataClear:false,selectedUser:"",userTasks:"",roles:"",boardAddModalShow:true
 }, action) => {
     switch (action.type) {
         case "SET_USERS_DATA":

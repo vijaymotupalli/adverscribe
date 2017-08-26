@@ -9,21 +9,17 @@ class User extends React.Component {
     constructor(props) {
         super(props);
     }
-
     componentDidMount() {
         this.props.getUsers();
     }
     selectedUser(user){
         const {context,history} = this.props
-        console.log("test",user)
         this.props.selectedUserData(user);
         history.push(this.props.match.url+"/"+user.email)
-        console.log(this.props)
     }
     render() {
-        console.log("----props users page---",this.props);
-        var temp = this.props.users ? this.props.users : []
-        var listUsers = temp.map(function (user) {
+        var users = this.props.users
+        var listUsers = users.map(function (user) {
             return (
                 <tr key={user.createdAt} onClick={()=>this.selectedUser(user)}>
                     <td>{user.name}</td>
@@ -61,12 +57,10 @@ class User extends React.Component {
                                 <th>Is Active</th>
                                 <th>Added At</th>
                                 <th>Action</th>
-
-
                             </tr>
                             </thead>
                             <tbody>
-                            {listUsers}
+                            {listUsers }
                             </tbody>
                         </table>
                     </div>

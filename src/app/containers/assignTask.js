@@ -1,23 +1,29 @@
 import React from "react";
 import {connect} from "react-redux";
 import './styles.css';
-import {getTasks} from "../actions/index";
+import {getTasks,selectedTaskData} from "../actions/index";
 import Task from './task'
 var moment = require('moment');
+import EditTask from "../containers/editTask"
+
 
 class AssignTask extends React.Component {
     constructor(props) {
         super(props);
-    }
-    componentDidMount() {
         this.props.getTasks();
     }
+    selectedTaskData(task){
+        this.props.selectedTaskData(task);
+
+    }
+
     render() {
         console.log("----props in tasks---",this.props);
         var temp = this.props.tasks ? this.props.tasks : []
         var listTasks = temp.map(function (task) {
             return (
-                <div key={task._id} className="taskCard">
+                <div key={task._id} className="taskCard" onClick={()=>{this.selectedTaskData(task)}}  data-toggle="modal"
+                     data-target="#editTask">
                     <div className="taskContainer">
                         <h4><b>{task.title}</b></h4>
                         <p>{moment(task.startDate).format('L')}</p>
@@ -29,7 +35,6 @@ class AssignTask extends React.Component {
         return (
             <div>
                 <div>
-                    <Task />
                     <div className="row" id="title">
                         <div className="col-sm-8" id="userslist">All Tasks</div>
                         <div className="col-sm-4"><button type="button" id="adduser" className="btn btn-info btn-lg" data-toggle="modal"
@@ -37,9 +42,10 @@ class AssignTask extends React.Component {
                         </button></div>
                     </div>
                     <div className="gridTasks">
-                   {listTasks}
+                        {listTasks}
                     </div>
                 </div>
+                <EditTask/>
             </div>
         );
     }
@@ -54,7 +60,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getTasks: () => dispatch(getTasks())
+        getTasks: () => dispatch(getTasks()),
+        selectedTaskData: (taskData) => dispatch(selectedTaskData(taskData)),
+
     };
 }
 

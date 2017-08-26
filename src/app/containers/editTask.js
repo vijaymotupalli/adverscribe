@@ -1,5 +1,5 @@
 import React from "react";
-import {addTask,setTaskError,getUsers} from "../actions/index";
+import {editTask,setTaskError,getUsers,selectedTaskData} from "../actions/index";
 import {connect} from "react-redux";
 import {BrowserRouter, Route, Redirect} from 'react-router-dom'
 import './styles.css';
@@ -11,52 +11,59 @@ var moment = require('moment');
 class EditTask extends React.Component {
     constructor(props) {
         super(props);
+        this.props.getUsers();
         this.state = {
-            title: props.selectedTask.title ? props.selectedTask.title :"",
-            description: props.selectedTask.description ?props.selectedTask.description:"",
-            startDate: props.selectedTask.startDate ? props.selectedTask.startDate :"",
-            endDate: props.selectedTask.endDate ? props.selectedTask.endDate :"",
-            assignTo: props.selectedTask.assignTo ? props.selectedTask.assignTo._id :"",
+            title: this.props.selectedTask.title ? this.props.selectedTask.title :"",
+            description: this.props.selectedTask.description ? this.props.selectedTask.description:"",
+            startDate: this.props.selectedTask.startDate ? this.props.selectedTask.startDate :"",
+            endDate: this.props.selectedTask.endDate ? this.props.selectedTask.endDate :"",
+            assignTo: this.props.selectedTask.assignTo ? this.props.selectedTask.assignTo._id :"",
             error:""
         };
-        this.props.getUsers();
         this.onSubmit = this.onSubmit.bind(this)
+    }
+    componentWillReceiveProps(nextProps){
+        this.setState ({
+            title: nextProps.selectedTask.title ? nextProps.selectedTask.title :"",
+            description: nextProps.selectedTask.description ? nextProps.selectedTask.description:"",
+            startDate: nextProps.selectedTask.startDate ? moment(nextProps.selectedTask.startDate) :"",
+            endDate: nextProps.selectedTask.endDate ? moment(nextProps.selectedTask.endDate) :"",
+            assignTo: nextProps.selectedTask.assignTo ? nextProps.selectedTask.assignTo._id :"",
+            error:""
+        });
+
     }
     onSubmit(e) {
         e.preventDefault();
         this.setState({error: ""})
         this.props.setTaskError("");
         const {title, description, startDate, endDate, assignTo} = this.state;
-        this.props.addTask({
+        const taskId = this.props.selectedTask._id
+        this.props.editTask({
+            userId:this.props.userName ?this.props.userName:JSON.parse(localStorage.getItem("loginuser")).email,
+            taskId:taskId,
             title: title,
             description: description,
             startDate: startDate,
             endDate: endDate,
             assignTo: assignTo
         }).then((result,err)=>{
-            console.log("----in promise------",err,result)
             if(!err){
-                this.setState({
-                    title: "",
-                    description: "",
-                    startDate: "",
-                    endDate: "",
-                    assignTo: "",
-                    error:""
-                });
+                document.getElementById("close").click()
+                this.props.selectedTaskData("");
             }
         })
     }
 
+
+
     render() {
-        console.log("----local task state---",this.state)
         var users = this.props.users ? this.props.users : []
         var options = users.map(function (user) {
             return (
                 <option key={user._id} value={user._id}>{user.name}</option>
             );
         }, this);
-
         return (
             <div>
                 <div className="container" >
@@ -64,7 +71,7 @@ class EditTask extends React.Component {
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header">
-                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    <button type="button" id="close" className="close"  data-dismiss="modal">&times;</button>
                                     <h4 className="modal-title">Assign Task</h4>
                                 </div>
                                 <div className="modal-body">
@@ -128,7 +135,8 @@ class EditTask extends React.Component {
                                                     <label className="colorGray">Assigned To</label>
                                                 </div>
                                                 <div className="col-md-9">
-                                                    <select className="form-control" placeholder="Select User"  onChange={e => this.setState({assignTo: e.target.value})} value={this.state.assignTo} >
+                                                    <select className="form-control" placeholder="Select User"  onChange={e => this.setState({assignTo: e.target.value})}
+                                                            value={this.state.assignTo} >
                                                         <option value="" defaultValue="--Select User--" disabled>--Select User--</option>
                                                         {options}
                                                     </select>
@@ -151,7 +159,7 @@ class EditTask extends React.Component {
                                                     style={{width:"100%",background:"#fff",color:"#333"}}>CANCEL</button>
                                         </div>
                                         <div className="col-md-6">
-                                            <button type="button" className="btn blackButton" onClick={this.onSubmit} style={{width:"100%"}}>ASSIGN</button>
+                                            <button type="button" className="btn blackButton" onClick={this.onSubmit} style={{width:"100%"}}>SUBMIT</button>
                                         </div>
                                     </div>
                                 </div>
@@ -167,19 +175,21 @@ class EditTask extends React.Component {
 ;
 
 const mapStateToProps = (state) => {
-    console.log("-----state in user---",state.User)
+    console.log("------users in edit task-----",state.User.users)
     return {
         taskError: state.Tasks.error,
         users: state.User.users,
-        selectedTask:state.Tasks.selectedTask
+        selectedTask:state.Tasks.selectedTask,
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addTask: (task) => dispatch(addTask(task)),
+        editTask: (task) => dispatch(editTask(task)),
         getUsers: () => dispatch(getUsers()),
         setTaskError: (error) => dispatch(setTaskError(error)),
+        selectedTaskData: (taskData) => dispatch(selectedTaskData(taskData))
+
 
     };
 }

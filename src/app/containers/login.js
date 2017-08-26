@@ -8,13 +8,11 @@ import './styles.css';
 class Login extends React.Component {
     constructor(props) {
         super(props);
-        console.log("-----in login page-----", props)
         if (localStorage.getItem("loginuser")) {
             this.props.setLoginSuccess(true);
         }
     }
     onResponseGoogle(response){
-        console.log("google from response",response);
         if(response.profileObj.email)this.props.googleLogin(response.profileObj.email);
     }
     render(){

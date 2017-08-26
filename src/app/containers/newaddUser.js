@@ -3,8 +3,6 @@ import {addUser,setUserError,getRoles} from "../actions/index";
 import {connect} from "react-redux";
 import {BrowserRouter, Route, Redirect} from 'react-router-dom'
 import './styles.css';
-import {RadioGroup,Radio} from 'react-mdl'
-
 class Adduser extends React.Component {
     constructor(props) {
         super(props);
@@ -101,7 +99,8 @@ class Adduser extends React.Component {
                                                     <label className="colorGray">Select Role</label>
                                                 </div>
                                                 <div className="col-md-9">
-                                                    <select className="form-control" id="sel1" onChange={e => this.setState({role: e.target.value})} value={this.state.role}>                                              <option value="" selected="selected" disabled>--Select Role--</option>
+                                                    <select className="form-control" id="sel1" onChange={e => this.setState({role: e.target.value})} value={this.state.role}>
+                                                        <option value="" defaultValue disabled>--Select Role--</option>
                                                           {listRoles}
                                                         </select>
                                                 </div>

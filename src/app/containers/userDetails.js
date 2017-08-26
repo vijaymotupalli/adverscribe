@@ -13,6 +13,9 @@ class UserDetails extends React.Component {
         super(props);
         this.props.getUserDetails(props.match.params.userId)
         this.props.getUserTasks(props.match.params.userId);
+        this.state={
+            selectedUser:props.match.params.userId
+        }
     }
     render() {
         return (
@@ -41,9 +44,9 @@ class UserDetails extends React.Component {
                         </div>
                         <div  className="row">
 
-                            {this.props.userTasks.todayTasks && <TasksNew items={this.props.userTasks.todayTasks} title="Today Tasks" color="antiquewhite" /> }
-                            {this.props.userTasks.pendingTasks && <TasksNew items={this.props.userTasks.pendingTasks} title="Pending Tasks" color="antiquewhite" /> }
-                            {this.props.userTasks.upcomingTasks && <TasksNew items={this.props.userTasks.upcomingTasks} title="Upcoming Tasks" color="antiquewhite" /> }
+                            {this.props.userTasks.todayTasks && <TasksNew user={this.state.selectedUser} items="todayTasks" title="Today Tasks" color="antiquewhite" /> }
+                            {this.props.userTasks.pendingTasks && <TasksNew user={this.state.selectedUser} items="pendingTasks" title="Pending Tasks" color="antiquewhite" /> }
+                            {this.props.userTasks.upcomingTasks && <TasksNew user={this.state.selectedUser} items="upcomingTasks" title="Upcoming Tasks" color="antiquewhite" /> }
 
                         </div>
                     </div>
@@ -57,7 +60,6 @@ class UserDetails extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    console.log("----state in user new details----",state)
     return {
         selectedUser: state.User.selectedUser,
         userTasks:state.User.userTasks,

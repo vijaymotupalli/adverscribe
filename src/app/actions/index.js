@@ -221,6 +221,34 @@ export function addTask(task) {
 
     }
 }
+export function editTask(task) {
+    return  dispatch => {
+        return new Promise (function (resolve,reject) {
+            axios.put('/api/tasks', {
+                taskId:task.taskId,
+                title:task.title,
+                description:task.description,
+                startDate:task.startDate,
+                endDate:task.endDate,
+                assignTo:task.assignTo
+            })
+                .then(function (response,err) {
+                    console.log("----api hitting----",response,err)
+                    dispatch(getTasks());
+                    dispatch(getUserTasks(task.userId));
+                    dispatch(setTaskError(""));
+                    resolve()
+                })
+                .catch(function (error) {
+                    if (error.response) {
+                        dispatch(setTaskError(error.response.data.msg.message ? error.response.data.msg.message :error.response.data.msg))
+                    }
+                    reject()
+                });
+        })
+
+    }
+}
 export function selectedUserData(selectedUserData) {
 
     return {
@@ -229,6 +257,7 @@ export function selectedUserData(selectedUserData) {
     }
 }
 export function selectedTaskData(selectedTaskData) {
+    console.log("-----hello how are you----",selectedTaskData)
 
     return {
         type: "SELECTED_TASK_DATA",

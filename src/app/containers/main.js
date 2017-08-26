@@ -28,7 +28,6 @@ class Main extends React.Component {
         const canSeeUsers = privileges.indexOf("VIEW_USERS")> -1
         const canSeeTasks = privileges.indexOf("VIEW_TASKS")> -1
         const canSeeUserdetails = privileges.indexOf("VIEW_USER_DETAILS")> -1
-        console.log("-----in main above to render------")
         return (
             <div id="testMain">
                 <div ><Route  component={Menu} /></div>
@@ -46,7 +45,6 @@ class Main extends React.Component {
 };
 
 const mapStateToProps = (state) => {
-    console.log("-----main state-----",state)
     return {
         isLoginPending: state.Login.isLoginPending,
         isLoginSuccess: state.Login.isLoginSuccess,
@@ -62,7 +60,6 @@ const mapDispatchToProps = (dispatch)=> {
         setLoginSuccess: (status) => dispatch(setLoginSuccess(status)),
         setHeaders: (token) => dispatch(setHeaders(token)),
         setPermissions: (permissions) => dispatch(setPermissions(permissions)),
-
     };
 
 }
