@@ -38,9 +38,6 @@ class TasksNew extends React.Component {
                 </div>
             )
         }, this);
-
-
-        console.log("----in all testing tasks------")
         return (
             <div>
                 <div  className="col-md-4">

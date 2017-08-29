@@ -31,7 +31,6 @@ class Main extends React.Component {
         return (
             <div id="testMain">
                 <div ><Route  component={Menu} /></div>
-                <div >Welcome to This For That</div>
                 <div  id="toggleMenu">
                     {canSeeUsers && <Route exact  path={match.url+'/users'} component={Users} /> }
                     {canSeeTasks &&  <Route exact  path={match.url+'/tasks'} component={AssignTask} /> }

@@ -2,16 +2,19 @@ import React from "react"
 import {Route, Link, Switch} from 'react-router-dom';
 import './styles.css';
 import {NavLink} from 'react-router-dom';
+import {connect} from "react-redux";
+import { postSignOutUserLog } from "../actions/index";
+
 
 
 class Menu extends React.Component {
     constructor(props) {
         super(props)
-        console.log("-----signout props----",props)
         this.onSignout = this.onSignout.bind(this)
     }
 
     onSignout(e) {
+        this.props.postSignOutUserLog(localStorage.getItem("logId"))
         localStorage.clear()
     }
 
@@ -35,7 +38,7 @@ class Menu extends React.Component {
         return (
             <div className="container-fluid">
                 <div id="mySidenav" className="sidenav">
-                    <a className="closebtn" onClick={this.closeNav}>&times;</a>
+                    {/*<a className="closebtn" onClick={this.closeNav}>&times;</a>*/}
                     <img src="../../assets/images/logo.png" className="logo2"/>
                     <div className="mainLinks">
                         <NavLink to={match.url+'/myprofile'}  activeClassName="active"  exact><img
@@ -50,10 +53,10 @@ class Menu extends React.Component {
                             src="../../assets/images/power.png"/> Signout </NavLink>
                     </div>
                 </div>
-                <div id="main">
-                    <img src="../../assets/images/logo1.png" className="logo1"/>
-                    <span className="mdi mdi-menu menuIco" id="menu" onClick={this.openNav}>Menu</span>
-                </div>
+                {/*<div id="main">*/}
+                    {/*<img src="../../assets/images/logo1.png" className="logo1"/>*/}
+                    {/*<span className="mdi mdi-menu menuIco" id="menu" onClick={this.openNav}>Menu</span>*/}
+                {/*</div>*/}
             </div>
         )
     }
@@ -61,4 +64,23 @@ class Menu extends React.Component {
 }
 
 
-export default Menu;
+
+const mapStateToProps = (state) => {
+    return {
+        isLoginPending: state.Login.isLoginPending,
+        isLoginSuccess: state.Login.isLoginSuccess,
+        loginError: state.Login.loginError,
+        permissions:state.Permissions.permissions
+    };
+};
+
+
+const mapDispatchToProps = (dispatch)=> {
+
+    return {
+        postSignOutUserLog: (logId) => dispatch(postSignOutUserLog(logId))
+    };
+
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Menu);

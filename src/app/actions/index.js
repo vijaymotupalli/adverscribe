@@ -40,8 +40,20 @@ export function googleLogin(email) {
                 var userData = response.data
                 localStorage.setItem("loginuser",JSON.stringify(userData));
                 axios.defaults.headers.common['accesstoken'] = JSON.parse(localStorage.getItem("loginuser")) ? JSON.parse(localStorage.getItem('loginuser')).access_token :"";
-                    dispatch(setLoginPending(false));
-                   dispatch(setLoginSuccess(true));
+                axios.post("api/userlog/",{
+                    userId:userData.email
+                }).then(function (logResponse,logErr) {
+                    console.log("----login logerror----",logErr)
+                    if(logResponse.data._id){
+                        localStorage.setItem("logId",logResponse.data._id)
+                        console.log("---- logId  ----",logResponse.data._id)
+                        dispatch(setLoginPending(false));
+                        dispatch(setLoginSuccess(true));
+                    }else{
+                        dispatch(setLoginPending(false));
+                        dispatch(setLoginSuccess(false));
+                    }
+                })
             })
             .catch(function (error) {
                 if (error.response) {
@@ -55,6 +67,17 @@ export function googleLogin(email) {
             });
     }
 }
+export function postSignOutUserLog(logId) {
+    return dispatch => {
+        axios.put('/api/userlog',{logId:logId}).then(function (response,err) {
+            if(response){
+                console.log("----sucess ra bhai----")
+            }
+        })
+    }
+
+}
+
 export function getUsers() {
     return  dispatch => {
         axios.get('/api/users')
@@ -256,6 +279,13 @@ export function selectedUserData(selectedUserData) {
         payload:selectedUserData
     }
 }
+export function selectedUserLog(selectedUserLog) {
+
+    return {
+        type: "SELECTED_USER_LOG",
+        payload:selectedUserLog
+    }
+}
 export function selectedTaskData(selectedTaskData) {
     console.log("-----hello how are you----",selectedTaskData)
 
@@ -288,6 +318,14 @@ export function getUserDetails(email) {
         var userDetails = "/api/users"+"/"+email;
         axios.get(userDetails).then(function(response) {
                 dispatch(selectedUserData(response.data))
+            });
+    }
+}
+export function getUserLog(email) {
+    return  dispatch => {
+        var userLog = "/api/userlog"+"/"+email;
+        axios.get(userLog).then(function(response) {
+                dispatch(selectedUserLog(response.data))
             });
     }
 }

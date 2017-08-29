@@ -66,13 +66,12 @@ class EditTask extends React.Component {
         }, this);
         return (
             <div>
-                <div className="container" >
                     <div className="modal fade" id="editTask" role="dialog">
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <button type="button" id="close" className="close"  data-dismiss="modal">&times;</button>
-                                    <h4 className="modal-title">Assign Task</h4>
+                                    <h4 className="modal-title">Edit Task</h4>
                                 </div>
                                 <div className="modal-body">
                                     <form>
@@ -166,7 +165,6 @@ class EditTask extends React.Component {
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
 
         )
@@ -175,7 +173,6 @@ class EditTask extends React.Component {
 ;
 
 const mapStateToProps = (state) => {
-    console.log("------users in edit task-----",state.User.users)
     return {
         taskError: state.Tasks.error,
         users: state.User.users,

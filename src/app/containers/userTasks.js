@@ -35,7 +35,6 @@ class UserDetails extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    console.log("-----usertasks-----",state)
     return {
         selectedUser: state.User.selectedUser,
         userTasks:state.User.userTasks,

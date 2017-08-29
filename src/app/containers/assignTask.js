@@ -18,7 +18,6 @@ class AssignTask extends React.Component {
     }
 
     render() {
-        console.log("----props in tasks---",this.props);
         var temp = this.props.tasks ? this.props.tasks : []
         var listTasks = temp.map(function (task) {
             return (
@@ -35,6 +34,7 @@ class AssignTask extends React.Component {
         return (
             <div>
                 <div>
+                    <Task/>
                     <div className="row" id="title">
                         <div className="col-sm-8" id="userslist">All Tasks</div>
                         <div className="col-sm-4"><button type="button" id="adduser" className="btn btn-info btn-lg" data-toggle="modal"
