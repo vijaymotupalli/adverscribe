@@ -22,7 +22,7 @@ class UserDetails extends React.Component {
     }
 
     render() {
-        var userLog =  this.props.selectedUserLog ? this.props.selectedUserLog.pop() :""
+        var userLog =  this.props.selectedUserLog ? this.props.selectedUserLog[0]:""
         var  LogData = function (userLog) {
             var logData = (userLog.log).map(function (log) {
                 var signIn = moment(log.signIn).format('MMMM Do YYYY, h:mm:ss a')
@@ -104,7 +104,6 @@ const mapStateToProps = (state) => {
         selectedUserLog: state.User.selectedUserLog,
         userTasks:state.User.userTasks,
         permissions:state.Permissions.permissions,
-        boardAddModalShow:state.User.boardAddModalShow,
 
     };
 }
