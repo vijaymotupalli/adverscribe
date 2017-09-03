@@ -5,6 +5,7 @@ import Login from "./reducers/loginReducer";
 import User from "./reducers/userReducer";
 import Tasks from "./reducers/taskReducer";
 import Permissions from "./reducers/permissionsReducer";
+import Event from "./reducers/eventsReducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const composeEnhancers = composeWithDevTools({
@@ -13,7 +14,7 @@ const composeEnhancers = composeWithDevTools({
 
 export default createStore(
     combineReducers({
-        Login,User,Tasks,Permissions
+        Login,User,Tasks,Permissions,Event
     }),
     {},
     composeEnhancers(

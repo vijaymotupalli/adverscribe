@@ -7,6 +7,8 @@ import UserDetails from './userDetails'
 import Myprofile from './mypofile'
 import AssignTask from './assignTask'
 import Mytasks from './userTasks'
+import {Selector} from './selector'
+import Timetracker from './calendar'
 import { BrowserRouter,Route ,Redirect} from 'react-router-dom'
 import './styles.css'
 
@@ -37,6 +39,10 @@ class Main extends React.Component {
                     {canSeeUserdetails && <Route exact  path={match.url+'/users/:userId'} component={UserDetails} /> }
                     <Route exact  path={match.url+'/mytasks'} component={Mytasks} />
                     <Route exact  path={match.url+'/myprofile'} component={Myprofile} />
+                    <Route   path={match.url+'/timetracker'} component={Timetracker} />
+                    <Route exact  path= {match.url+'/addtime' } component={Selector} />
+
+
                 </div>
             </div>
         );

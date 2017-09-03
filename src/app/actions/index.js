@@ -86,6 +86,12 @@ export function getUsers() {
             });
     }
 }
+export function setCount(count) {
+    return {
+        type: "SET_COUNT_DATA",
+        payload:count
+    };
+}
 export function getRoles() {
     return  dispatch => {
         axios.get('/api/users/roles')
