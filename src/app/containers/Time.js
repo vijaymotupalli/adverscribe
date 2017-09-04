@@ -12,20 +12,18 @@ class Time extends React.Component {
         super(props);
         this.onSubmit = this.onSubmit.bind(this)
     }
-
     onSubmit(e) {
         e.preventDefault();
         this.props.setCount(1);
+        this.forceUpdate()
     }
-
     render() {
-        console.log("----this count-----",this.props.Ncount)
         var times = this.props.selectedDateData.map(function (data) {
             return (
                 <EachTime data={data}/>
             )
         })
-        var newTimes = (this.props.Ncount).map(function (each) {
+        var newTimes = (this.props.count).map(function (each) {
             return(<EachTime/>)
         })
         return (
@@ -37,9 +35,8 @@ class Time extends React.Component {
                     <div className="col-sm-4">DESCRIPTION</div>
                     <div className="col-sm-1" onClick={this.onSubmit}>+</div>
                 </div>
-                <h1>welcome:{this.props.Ncount.length}</h1>
                 {times}
-                {/*{this.props.count.length ? newTimes :""}*/}
+                {this.props.count.length ? newTimes :""}
             </div>
 
         )
@@ -52,7 +49,7 @@ const mapStateToProps = (state) => {
     console.log("----sate in time hello how----",state.Event.count)
 
     return {
-        Ncount:state.Event.count,
+        count:state.Event.count,
         selectedDateData:state.Event.selectedDateData
 
     };
