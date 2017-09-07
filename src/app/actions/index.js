@@ -3,6 +3,8 @@ axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.common['accesstoken'] =  ""
 
+import moment from "moment"
+
 import {SET_LOGIN_PENDING,SET_LOGIN_SUCCESS,SET_LOGIN_ERROR} from './types'
 
 export function setLoginPending(isLoginPending) {
@@ -116,6 +118,13 @@ export function setUsersData(usersData) {
         payload:usersData
     }
 }
+export function setEventData(data) {
+
+    return {
+        type: "SET_EVENT_DATA",
+        payload:data
+    }
+}
 
 export function setUserError(userError) {
 
@@ -155,6 +164,23 @@ export function setPermissions(permissions) {
     return {
         type: "SET_PERMISSIONS",
         payload:permissions
+    }
+}
+export function setSelectedDateData(data) {
+    return {
+        type: "SET_SELECTED_DATE_DATA",
+        payload:data
+    }
+}
+export function setSelectedDate(date) {
+    return {
+        type: "SET_SELECTED_DATE",
+        payload:date
+    }
+}
+export function clearSelectedDateData() {
+    return {
+        type: "CLEAR_SELECTED_DATE_DATA"
     }
 }
 
@@ -333,5 +359,38 @@ export function getUserLog(email) {
         axios.get(userLog).then(function(response) {
                 dispatch(selectedUserLog(response.data))
             });
+    }
+}
+export function getEventData(month,year) {
+    return  dispatch => {
+        var userMonthlydataUrl = "api/users/month/time?month="+month+"&year="+year;
+        axios.get(userMonthlydataUrl).then(function(response) {
+                dispatch(setEventData(response.data))
+            });
+    }
+}
+export function getSelectedDateData(date) {
+    return  dispatch => {
+        var userMonthlydataUrl = "api/users/date/time?date="+date
+        axios.get(userMonthlydataUrl).then(function(response) {
+                dispatch(setSelectedDateData(response.data))
+            });
+    }
+}
+export function addTime(data,date) {
+    return  dispatch => {
+
+        axios.post('api/users/date/time', {
+                date:date,
+                hours:data.hours,
+                mins:data.mins,
+                project:data.project,
+                description:data.description
+            })
+                .then(function (response,err) {
+                    dispatch(getEventData(moment(date).month()+1,moment(date).year()));
+                    dispatch(getSelectedDateData(date))
+                })
+
     }
 }

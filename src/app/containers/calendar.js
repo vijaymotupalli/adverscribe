@@ -14,7 +14,7 @@ import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 
 import Time from './Time';
 
-import {getUsers, selectedUserData, setEventData} from "../actions/index";
+import {getEventData,getSelectedDateData,clearSelectedDateData,setSelectedDate} from "../actions/index";
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',];
 
@@ -22,6 +22,10 @@ class Calendar extends React.Component {
 
     constructor(props) {
         super(props);
+       var month =  moment().month()+1
+       var year =  moment().year()
+        console.log("----month,year----",month,year);
+        this.props.getEventData(month,year)
         this.state = {
             moment: moment(),
             showPopover: false,
@@ -87,7 +91,11 @@ class Calendar extends React.Component {
 
     handleDayClick(target, day) {
 
-        this.props.history.push(this.props.match.url + '/addtime');
+        this.props.clearSelectedDateData();
+        this.props.setSelectedDate(this.getMomentFromDay(day).format('MM/DD/YYYY'));
+        this.props.getSelectedDateData(this.getMomentFromDay(day).format('MM/DD/YYYY'))
+        console.log("-----slected date----",this.getMomentFromDay(day).format('MM/DD/YYYY'))
+        //this.props.history.push(this.props.match.url + '/addtime');
         this.setState({
             showPopover: false,
             showModal: true,
@@ -115,7 +123,6 @@ class Calendar extends React.Component {
     }
 
     render() {
-        console.log("----events got from---", this.props.events);
         return (
             <div >
                 <div className="calendar">
@@ -135,7 +142,7 @@ class Calendar extends React.Component {
                     />
                 </div>
                 <div className="addtime">
-                    <Route path={this.props.match.url + '/addtime'} component={Time}/>
+                    {this.props.selectedDateData && <Time selectedDateData = {this.props.selectedDateData}/>}
                 </div>
 
             </div>
@@ -144,7 +151,9 @@ class Calendar extends React.Component {
 }
 const mapStateToProps = (state) => {
     return {
-        events: state.Event.Events,
+        events: state.Event.events,
+        selectedDateData:state.Event.selectedDateData,
+        selectedDate:state.Event.selectedDate
 
     };
 };
@@ -153,7 +162,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch)=> {
 
     return {
-        setEventData: (data) => dispatch(setEventData(data))
+        getEventData: (month,year) => dispatch(getEventData(month,year)),
+        getSelectedDateData: (date) => dispatch(getSelectedDateData(date)),
+        clearSelectedDateData: () => dispatch(clearSelectedDateData()),
+        setSelectedDate: (date) => dispatch(setSelectedDate(date)),
     };
 
 }

@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {BrowserRouter, Route, Redirect} from 'react-router-dom'
 import './styles.css';
 var moment = require('moment');
+import {setEventTimeData,setCount,addTime,clearSelectedDateData} from "../actions/index";
+
 
 class EachTime extends React.Component {
     constructor(props) {
@@ -11,19 +13,20 @@ class EachTime extends React.Component {
             _id:props.data ? props.data._id :"",
             hours:props.data ? props.data.hours :"",
             mins:props.data ?props.data.mins:"" ,
-            projects:props.data ? props.data.projects :"",
+            project:props.data ? props.data.project :"",
             description:props.data ? props.data.description :"",
+            date:props.date ? props.date :""
         }
         this.onAdd = this.onAdd.bind(this)
     }
 
     onAdd(e) {
         e.preventDefault();
-        console.log("----final state-----",this.state)
+        this.props.clearSelectedDateData()
+        this.props.addTime(this.state,this.props.selectedDate);
+        this.props.setCount(0)
     }
     render() {
-        console.log("----Each time props--------",this.props)
-
         return (
             <div>
                 <form >
@@ -51,14 +54,14 @@ class EachTime extends React.Component {
                                 <option value="50">50min</option>
                             </select></div>
                         <div className="col-sm-3">
-                            <select className="form-control" id="projects" value={this.state.projects} onChange={e => this.setState({projects: e.target.value})}>
+                            <select className="form-control" id="project" value={this.state.project} onChange={e => this.setState({project: e.target.value})}>
                                 <option value="" defaultValue="--SelectUser--" disabled="disabled">--select--</option>
                                 <option value="Adverscribe">Adverscribe</option>
                             </select></div>
                         <div className="col-sm-4" id="description" >
                             <textarea className="form-control" id="exampleTextarea" rows="3" value={this.state.description} onChange={e => this.setState({description: e.target.value})}/></div>
                         <div className="col-sm-1">
-                            <button type="submit" onClick={this.onAdd}>Add</button>
+                            <button type="submit" onClick={this.onAdd} >Add</button>
                         </div>
                     </div>
                 </form>
@@ -71,11 +74,17 @@ class EachTime extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        count:state.Event.count,
+        selectedDate:state.Event.selectedDate
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        setEventTimeData:(data)=>dispatch(setEventTimeData(data)),
+        setCount:(count)=>dispatch(setCount(count)),
+        addTime:(data,date)=>dispatch(addTime(data,date)),
+        clearSelectedDateData: () => dispatch(clearSelectedDateData())
 
     };
 }

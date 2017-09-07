@@ -10,15 +10,24 @@ import {setCount} from "../actions/index";
 class Time extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            selectedDateData : props.selectedDateData
+        }
         this.onSubmit = this.onSubmit.bind(this)
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setState ({
+            selectedDateData:nextProps.selectedDateData
+        });
+
     }
     onSubmit(e) {
         e.preventDefault();
         this.props.setCount(1);
-        this.forceUpdate()
     }
     render() {
-        var times = this.props.selectedDateData.map(function (data) {
+        var times = this.state.selectedDateData.map(function (data) {
             return (
                 <EachTime data={data}/>
             )
@@ -28,6 +37,7 @@ class Time extends React.Component {
         })
         return (
             <div>
+                <h3>{this.props.selectedDate ? moment(this.props.selectedDate).format("LL") : ""}</h3>
                 <div className="col-sm-12" id="titleheader">
                     <div className="col-sm-2">HOURS</div>
                     <div className="col-sm-2">MINS</div>
@@ -35,7 +45,7 @@ class Time extends React.Component {
                     <div className="col-sm-4">DESCRIPTION</div>
                     <div className="col-sm-1" onClick={this.onSubmit}>+</div>
                 </div>
-                {times}
+                {this.state.selectedDateData && times}
                 {this.props.count.length ? newTimes :""}
             </div>
 
@@ -46,12 +56,9 @@ class Time extends React.Component {
 
 const mapStateToProps = (state) => {
 
-    console.log("----sate in time hello how----",state.Event.count)
-
     return {
         count:state.Event.count,
-        selectedDateData:state.Event.selectedDateData
-
+        selectedDate:state.Event.selectedDate
     };
 }
 
